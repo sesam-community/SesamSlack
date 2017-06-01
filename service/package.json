@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@slack/client": "^3.10.0",
     "node-simple-router": "^0.10.0"
   }
 }

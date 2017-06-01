@@ -3,26 +3,34 @@ var http = require('http');
 var Router = require('node-simple-router');
 var url = require('url');
 
+//variables
+var host = "localhost";
+var port = "5000";
+var userlist;
+
+
+
 function DataAccessLayer() {
-  var entities = [];
-  var now = Date.now();
-  for (i = 0; i < 10; i++) {
-    entities.push({
-      "_id": "entity-" + i,
-      "name": "entity-" + i,
-      "_updated": now + i
-    })
-  }
-  this.getEntities = function (since) {
-    if (since == undefined) {
-      return entities;
-    } else {
-      return entities.filter(function (e) {
-        return e["_updated"] > since;
-      });
-    }
-  }
+
+
+  this.GetUsers = function (callback) {
+    var WebClient = require('@slack/client').WebClient;
+
+    var token = process.env.SLACK_TOKEN || '';
+    var web = new WebClient("xoxp-178195654566-177394975970-189327793635-005d6247cfbe86059052312d9d1c1f9c");
+
+    web.users.list(function teamInfoCb(err, info) {
+      if (err) {
+        console.log('Error:', err);
+      } else {
+        
+        
+        return callback(info);
+      }
+    });
+  };
 }
+
 
 var dataAccessLayer = new DataAccessLayer();
 
@@ -31,15 +39,20 @@ var router = Router();
 // Configure router to respond with a list of entities to /entities
 router.get("/entities", function (request, response) {
   var since = url.parse(request.url, true).query.since;
-  response.writeHead(200, {"Content-Type": "application/json"});
-  response.end(JSON.stringify(dataAccessLayer.getEntities(since)));
+  console.log(userlist);
+  dataAccessLayer.GetUsers(function(userlist) {
+    console.log(userlist);
+    response.writeHead(200, {"Content-Type": "application/json"});
+    response.end(JSON.stringify(userlist));
+  })
+  
 });
 
 // Configure our HTTP server to use router function
 var server = http.createServer(router);
 
 // Listen on port 5000, IP defaults to 127.0.0.1
-server.listen(5000, "0.0.0.0");
+server.listen(port, host);
 
 // Put a friendly message on the terminal
-console.log("Server running at http://0.0.0.0:5000/");
+console.log("Server running at http://" +host +":" +port);
