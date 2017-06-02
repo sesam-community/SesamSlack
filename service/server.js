@@ -45,10 +45,7 @@ var router = Router();
 
 //henter users fra slack. 
 router.get("/users", function (request, response) {
-  var since = url.parse(request.url, true).query.since;
   dataAccessLayer.GetUsers(function(userlist) {
-    
-
     Object.keys(userlist.members).forEach(function(element, key, _array) {
       userlist.members[element]["_deleted"] = userlist.members[element]["deleted"];
       userlist.members[element]["updated"] = userlist.members[element]["updated"];
@@ -77,6 +74,9 @@ router.get("/usergroups", function (request, response) {
     response.writeHead(200, {"Content-Type": "application/json"});
     response.end(JSON.stringify(usergrouplist));
   })
+});
+
+router.post("/users", function (request, response) {
   
 });
 
