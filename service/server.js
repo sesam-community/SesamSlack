@@ -36,20 +36,73 @@ function DataAccessLayer() {
       }
     });
   };
+
+  this.UpdateUser = function (user, callback) {
+      var userprofile = this.SlackProfile(user);
+      
+      var profile = JSON.stringify(userprofile.profile);
+      var user = JSON.stringify(userprofile.user);
+      console.log(typeof user +user);
+      console.log(typeof profile +profile);
+      web.users.profile.set({user, profile}, function (err, stringprofile) {
+        if (err) {
+          console.log("Err: " +err)
+      } else {        
+        return callback(info);
+      }
+      });
+      // web.users.profile.set(user, profile);
+  };
+
+  this.SlackProfile = function (user) {
+    var userprofile = {};        
+    userprofile["user"] = user["_id"].split(":")[1];  
+    
+    var slackprofile = {};
+    // var last_name = {
+    //   last_name : (user["slack-profile:last_name"].toString().length > 0 ? user["slack-profile:last_name"].toString() : "")
+    // };
+    // var first_name = {
+    //   first_name : (user["slack-profile:first_name"].toString().length > 0 ? user["slack-profile:first_name"].toString() : "" )
+    // };
+    
+    
+    
+    slackprofile["first_name"] = (user["slack-profile:first_name"].toString().length > 0 ? user["slack-profile:first_name"].toString() : "" );
+    slackprofile["last_name"] = (user["slack-profile:last_name"].toString().length > 0 ? user["slack-profile:last_name"].toString() : "");
+          
+    userprofile["profile"] =  slackprofile;
+    
+    return userprofile;
+  };
+
+
+  this.UpdateUsergroup = function (group) {
+
+  }
+
+  // this.deactivateUser = function(user, callback) {
+  //   web.users.deactivateUser
+  // }
 }
 
 
 var dataAccessLayer = new DataAccessLayer();
-
 var router = Router();
 
 //henter users fra slack. 
 router.get("/users", function (request, response) {
   dataAccessLayer.GetUsers(function(userlist) {
-    Object.keys(userlist.members).forEach(function(element, key, _array) {
-      userlist.members[element]["_deleted"] = userlist.members[element]["deleted"];
-      userlist.members[element]["updated"] = userlist.members[element]["updated"];
-      userlist.members[element]["_id"] = userlist.members[element]["id"];
+    Object(userlist.members).forEach(function(element, key, _array) {
+      if(element["id"] == "USLACKBOT" || element["is_bot"] == true) {
+        console.log(element["name"]);
+        //userlist.members.remove(element);
+      } else {
+        element["_deleted"] = element["deleted"];
+        element["updated"] = element["updated"];
+        element["_id"] = element["id"];
+      }
+      
     })
     response.writeHead(200, {"Content-Type": "application/json"});
     response.end(JSON.stringify(userlist));
@@ -76,8 +129,44 @@ router.get("/usergroups", function (request, response) {
   })
 });
 
-router.post("/users", function (request, response) {
-  
+router.post('/users', function(request, response) {   
+    var users = request.post;
+    Object(users.users).forEach(function(element, key, _array) {
+      console.log("foreach element");
+      if(element["_deleted"]) {
+      //   dataAccessLayer.deactivateUser(element, function(user) {        
+      //     response.end(JSON.stringify(request.post));
+      // });
+        console.log("deactivate");
+      } else {
+        dataAccessLayer.UpdateUser(element, function(new_user_id) {        
+          
+      });
+      }
+      
+    })
+    response.end(JSON.stringify(request.post));
+
+});
+
+router.post('/usergroups', function(request, response) {   
+    var usergroups = request.post;
+    Object(usergroups.groups).forEach(function(element, key, _array) {
+      console.log(element);
+      if(element["_deleted"]) {
+      //   dataAccessLayer.deactivateUser(element, function(user) {        
+      //     response.end(JSON.stringify(request.post));
+      // });
+        console.log("deactivate");
+      } else {
+        dataAccessLayer.UpdateUsergroup(element, function(new_user_id) {        
+          
+      });
+      }
+      
+    })
+    response.end(JSON.stringify(request.post));
+
 });
 
 // Configure our HTTP server to use router function
