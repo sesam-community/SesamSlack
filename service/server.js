@@ -173,7 +173,7 @@ router.post('/usergroups', function(request, response) {
 var server = http.createServer(router);
 
 // Listen on port 5000, IP defaults to 127.0.0.1
-server.listen(port, host);
+server.listen(port);
 
 // Put a friendly message on the terminal
 console.log("Server running at http://" +host +":" +port);

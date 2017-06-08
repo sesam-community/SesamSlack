@@ -1,5 +1,5 @@
 FROM node:4-slim
-MAINTAINER Graham Moore "graham.moore@sesam.io"
+MAINTAINER Eirik "eirik.sander-fjeld@bouvet.no"
 COPY ./service /service
 WORKDIR /service
 RUN npm install
