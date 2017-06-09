@@ -6,7 +6,7 @@ var url = require('url');
 var token = process.env.slacktoken;
 
 //variables
-var host = "localhost";
+var host = "0.0.0.0";
 var port = "5000";
 var userlist;
 
@@ -173,7 +173,7 @@ router.post('/usergroups', function(request, response) {
 var server = http.createServer(router);
 
 // Listen on port 5000, IP defaults to 127.0.0.1
-server.listen(port);
+server.listen(port, host);
 
 // Put a friendly message on the terminal
 console.log("Server running at http://" +host +":" +port);
