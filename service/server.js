@@ -75,13 +75,13 @@ function DataAccessLayer() {
     return userprofile;
   };
 
-  this.deactivateUser = function (user) {
+  this.deactivateUser = function (user, callback) {
     web.makeAPICall('users.admin.setInactive', user["user"],  function (err, user) {
         if (err) {
           console.log("Err: " +err);
       } else {        
-        console.log("Worx: " +err);
-        return callback(info);
+        console.log("Worx: " +user);
+        return callback(user);
       }
     }
     )};
@@ -91,8 +91,26 @@ function DataAccessLayer() {
 
   };
 
-  this.CreateUserGroup = function (group) {
-    web.usergroups.create(group["ad-department:department"], function (err, group){
+  this.CheckUserGroup = function (group) {
+
+  };
+
+  this.CreateChannel = function (group) {
+    var groupname = group["name"][0];
+    web.channels.create(groupname, function(err, group) {
+      if (err) {
+        console.log("Err: " +err);
+      } else {
+        console.log("Worx: " +err);
+        return (group);
+      }
+    })
+  };
+
+  this.CreateUserGroup = function (group, callback) {
+    
+    var groupname = group["name"][0];
+    web.usergroups.create(groupname, function (err, group){
       if (err) {
         console.log("Err: " +err);
       } else {
@@ -131,7 +149,6 @@ router.get("/users", function (request, response) {
 });
 
 router.get("/usergroups", function (request, response) {
-  var since = url.parse(request.url, true).query.since;
   dataAccessLayer.GetUsergroups(function(usergrouplist) {
       Object(usergrouplist.usergroups).forEach(function(element, key, _array) {
       var deleted;
@@ -144,7 +161,7 @@ router.get("/usergroups", function (request, response) {
       element["_deleted"] = deleted;
       element["_updated"] = element["date_update"];
       element["_id"] = element["id"];
-    })
+    });
     response.writeHead(200, {"Content-Type": "application/json"});
     response.end(JSON.stringify(usergrouplist));
   })
@@ -169,7 +186,7 @@ router.post('/users', function(request, response) {
 router.post('/usergroups', function(request, response) {   
     var usergroups = request.post;
     console.log(usergroups);
-    Object(usergroups.groups).forEach(function(element, key, _array) {
+    Object(usergroups).forEach(function(element, key, _array) {
       console.log(element);
       if(element["_deleted"]) {
       //   dataAccessLayer.deactivateUser(element, function(user) {        
@@ -184,6 +201,9 @@ router.post('/usergroups', function(request, response) {
           });   
         } else {
           dataAccessLayer.CreateUserGroup(element, function(group) {
+
+          });
+          dataAccessLayer.CreateChannel(element, function(group) {
 
           });
         }
