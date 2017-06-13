@@ -38,16 +38,24 @@ function DataAccessLayer() {
   };
 
   this.UpdateUser = function (user, callback) {
-      var userprofile = this.SlackProfile(user);
       
-      var profile = JSON.stringify(userprofile.profile);
-      var user = JSON.stringify(userprofile.user);
-      console.log(typeof user +user);
-      console.log(typeof profile +profile);
-      web.users.profile.set({user, profile}, function (err, stringprofile) {
+      var userprofile = this.SlackProfile(user);
+      var profilestring = JSON.stringify(userprofile.profile);
+      var userid = JSON.stringify(userprofile.user);
+      var optionobject = {};
+      
+      
+      var opts = {
+        user  : userprofile.user,
+        profile : userprofile.profile
+      };
+      console.log(opts);
+      console.log(JSON.stringify(userprofile));
+      web.users.profile.set(JSON.stringify(userprofile), function (err, userprofile) {
         if (err) {
           console.log("Err: " +err)
       } else {        
+        console.log("Worx: " +err)
         return callback(info);
       }
       });
@@ -58,16 +66,7 @@ function DataAccessLayer() {
     var userprofile = {};        
     userprofile["user"] = user["_id"].split(":")[1];  
     
-    var slackprofile = {};
-    // var last_name = {
-    //   last_name : (user["slack-profile:last_name"].toString().length > 0 ? user["slack-profile:last_name"].toString() : "")
-    // };
-    // var first_name = {
-    //   first_name : (user["slack-profile:first_name"].toString().length > 0 ? user["slack-profile:first_name"].toString() : "" )
-    // };
-    
-    
-    
+    var slackprofile = {};    
     slackprofile["first_name"] = (user["slack-profile:first_name"].toString().length > 0 ? user["slack-profile:first_name"].toString() : "" );
     slackprofile["last_name"] = (user["slack-profile:last_name"].toString().length > 0 ? user["slack-profile:last_name"].toString() : "");
           
@@ -76,10 +75,32 @@ function DataAccessLayer() {
     return userprofile;
   };
 
+  this.deactivateUser = function (user) {
+    web.makeAPICall('users.admin.setInactive', user["user"],  function (err, user) {
+        if (err) {
+          console.log("Err: " +err);
+      } else {        
+        console.log("Worx: " +err);
+        return callback(info);
+      }
+    }
+    )};
+
 
   this.UpdateUsergroup = function (group) {
 
-  }
+  };
+
+  this.CreateUserGroup = function (group) {
+    web.usergroups.create(group["ad-department:department"], function (err, group){
+      if (err) {
+        console.log("Err: " +err);
+      } else {
+        console.log("Worx: " +err);
+        return callback(info);
+      }
+    })
+  };
 
   // this.deactivateUser = function(user, callback) {
   //   web.users.deactivateUser
@@ -95,11 +116,11 @@ router.get("/users", function (request, response) {
   dataAccessLayer.GetUsers(function(userlist) {
     Object(userlist.members).forEach(function(element, key, _array) {
       if(element["id"] == "USLACKBOT" || element["is_bot"] == true) {
-        console.log(element["name"]);
+        
         //userlist.members.remove(element);
       } else {
         element["_deleted"] = element["deleted"];
-        element["updated"] = element["updated"];
+        element["_updated"] = element["updated"];
         element["_id"] = element["id"];
       }
       
@@ -112,17 +133,17 @@ router.get("/users", function (request, response) {
 router.get("/usergroups", function (request, response) {
   var since = url.parse(request.url, true).query.since;
   dataAccessLayer.GetUsergroups(function(usergrouplist) {
-      Object.keys(usergrouplist.usergroups).forEach(function(element, key, _array) {
+      Object(usergrouplist.usergroups).forEach(function(element, key, _array) {
       var deleted;
-      console.log(usergrouplist.usergroups[element]["deleted_by"])
-      if(usergrouplist.usergroups[element]["deleted_by"]) {
+      
+      if(element["deleted_by"]) {
         deleted = true;
       } else {
         deleted = false;
       }   
-      usergrouplist.usergroups[element]["_deleted"] = deleted;
-      usergrouplist.usergroups[element]["_updated"] = usergrouplist.usergroups[element]["date_update"];
-      usergrouplist.usergroups[element]["_id"] = usergrouplist.usergroups[element]["id"];
+      element["_deleted"] = deleted;
+      element["_updated"] = element["date_update"];
+      element["_id"] = element["id"];
     })
     response.writeHead(200, {"Content-Type": "application/json"});
     response.end(JSON.stringify(usergrouplist));
@@ -132,15 +153,11 @@ router.get("/usergroups", function (request, response) {
 router.post('/users', function(request, response) {   
     var users = request.post;
     Object(users.users).forEach(function(element, key, _array) {
-      console.log("foreach element");
-      if(element["_deleted"]) {
-      //   dataAccessLayer.deactivateUser(element, function(user) {        
-      //     response.end(JSON.stringify(request.post));
-      // });
-        console.log("deactivate");
+      if(element["_deleted"] || element["_deleted"] || element["id"]) {
+        console.log("Deactivate");
+        dataAccessLayer.deactivateUser(element);
       } else {
-        dataAccessLayer.UpdateUser(element, function(new_user_id) {        
-          
+        dataAccessLayer.UpdateUser(element, function(new_user_id) {                  
       });
       }
       
@@ -158,10 +175,17 @@ router.post('/usergroups', function(request, response) {
       //     response.end(JSON.stringify(request.post));
       // });
         console.log("deactivate");
+        
       } else {
-        dataAccessLayer.UpdateUsergroup(element, function(new_user_id) {        
+        if(element["slack-group:id"] > "") {
+          dataAccessLayer.UpdateUsergroup(element, function(group) {        
           
-      });
+          });   
+        } else {
+          dataAccessLayer.CreateUserGroup(element, function(group) {
+
+          });
+        }
       }
       
     })
