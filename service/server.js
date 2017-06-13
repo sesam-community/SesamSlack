@@ -53,9 +53,9 @@ function DataAccessLayer() {
       console.log(JSON.stringify(userprofile));
       web.users.profile.set(JSON.stringify(userprofile), function (err, userprofile) {
         if (err) {
-          console.log("Err: " +err)
+          console.log("Err: " +err);
       } else {        
-        console.log("Worx: " +err)
+        console.log("Worx: " +err);
         return callback(info);
       }
       });
@@ -168,6 +168,7 @@ router.post('/users', function(request, response) {
 
 router.post('/usergroups', function(request, response) {   
     var usergroups = request.post;
+    console.log(usergroups);
     Object(usergroups.groups).forEach(function(element, key, _array) {
       console.log(element);
       if(element["_deleted"]) {
