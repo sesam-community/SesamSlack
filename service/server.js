@@ -170,16 +170,6 @@ router.get("/usergroups", function (request, response) {
 router.post('/users', function(request, response) {   
     var users = request.post;
     // preserve newlines, etc - use valid JSON
- users = users.replace(/\\n/g, "\\n")  
-               .replace(/\\'/g, "\\'")
-               .replace(/\\"/g, '\\"')
-               .replace(/\\&/g, "\\&")
-               .replace(/\\r/g, "\\r")
-               .replace(/\\t/g, "\\t")
-               .replace(/\\b/g, "\\b")
-               .replace(/\\f/g, "\\f");
-// remove non-printable and other non-valid JSON chars
-users = users.replace(/[\u0000-\u0019]+/g,"");
 
     Object(users.users).forEach(function(element, key, _array) {
       if(element["_deleted"] || element["_deleted"] || element["id"]) {
