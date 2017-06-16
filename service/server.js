@@ -93,8 +93,8 @@ function DataAccessLayer() {
 
   };
 
-  this.CreateChannel = function (group) {
-    var groupname = group["name"][0];
+  this.CreateChannel = function (group, callback) {
+    var groupname = group["slack-usergroup:name"];
     web.channels.create(groupname, function(err, response) {
       if (err) {
         console.log("Err: " +err);
@@ -105,15 +105,15 @@ function DataAccessLayer() {
     })
   };
 
-  this.CreateUserGroup = function (group, callback) {
+this.CreateUserGroup = function (group, callback) {
     
-    var groupname = group["name"][0];
-    web.usergroups.create(groupname, function (err, group){
+    var groupname = group["slack-usergroup:name"];
+    web.usergroups.create(groupname, function (err, res){
       if (err) {
         console.log("Err: " +err);
       } else {
-        console.log("Worx: " +group);
-        return callback(info);
+        console.log("Worx: " +res);
+        return callback(res);
       }
     })
   };
@@ -187,6 +187,8 @@ router.post('/usergroups', function(request, response) {
     var usergroups = request.post;
     
     Object(usergroups).forEach(function(element, key, _array) {
+      console.log("--deactivate");
+      console.log(element);
       if(element["_deleted"]) {
       //   dataAccessLayer.deactivateUser(element, function(user) {        
       //     response.end(JSON.stringify(request.post));
@@ -194,12 +196,14 @@ router.post('/usergroups', function(request, response) {
         console.log("deactivate");
         
       } else {
-        if(element["slack-group:id"] > "") {
+        if(element['slack-usergroup:id'] > "") {
+          console.log("id");
           dataAccessLayer.UpdateUsergroup(element, function(group) {        
             console.log(group);
           });   
         } else {
-          if(element.Name != null) {
+          if(element['slack-usergroup:name'] != null) {
+            console.log("name");
             dataAccessLayer.CreateUserGroup(element, function(group) {
               console.log(group);
             });  
