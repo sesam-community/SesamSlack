@@ -69,9 +69,7 @@ function DataAccessLayer() {
     var slackprofile = {};    
     slackprofile["first_name"] = (user["slack-profile:first_name"].toString().length > 0 ? user["slack-profile:first_name"].toString() : "" );
     slackprofile["last_name"] = (user["slack-profile:last_name"].toString().length > 0 ? user["slack-profile:last_name"].toString() : "");
-          
     userprofile["profile"] =  slackprofile;
-    
     return userprofile;
   };
 
@@ -97,12 +95,12 @@ function DataAccessLayer() {
 
   this.CreateChannel = function (group) {
     var groupname = group["name"][0];
-    web.channels.create(groupname, function(err, group) {
+    web.channels.create(groupname, function(err, response) {
       if (err) {
         console.log("Err: " +err);
       } else {
-        console.log("Worx: " +err);
-        return (group);
+        console.log("Worx: " +response);
+        return callback(response);
       }
     })
   };
@@ -114,7 +112,7 @@ function DataAccessLayer() {
       if (err) {
         console.log("Err: " +err);
       } else {
-        console.log("Worx: " +err);
+        console.log("Worx: " +group);
         return callback(info);
       }
     })
@@ -198,17 +196,18 @@ router.post('/usergroups', function(request, response) {
       } else {
         if(element["slack-group:id"] > "") {
           dataAccessLayer.UpdateUsergroup(element, function(group) {        
-          
+            console.log(group);
           });   
         } else {
           if(element.Name != null) {
             dataAccessLayer.CreateUserGroup(element, function(group) {
-
+              console.log(group);
             });  
             dataAccessLayer.CreateChannel(element, function(group) {
-
+              console.log(group);
             });
           } else {
+            console.log(element);
             console.log("null value detected. Skipping: " +element._id);
           }
           
