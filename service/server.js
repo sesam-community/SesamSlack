@@ -91,6 +91,7 @@ function DataAccessLayer() {
 
 var dataAccessLayer = new DataAccessLayer();
 const uga = require('./usergroupsaccess');
+const ua = require('./useraccess');
 var router = Router();
 
 //henter users fra slack. 

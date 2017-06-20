@@ -63,13 +63,11 @@ CreateUserGroup = function (group, channel, callback) {
     var groupname = group["slack-usergroup:name"];
     var opts = {};
     opts.channels = channel;
-    console.log(opts.channel);
     web.usergroups.create(groupname, opts , function (err, response){
         if (err) {
-        console.log("Err: " +err);
+            console.log("Err: " +err);
         } else {
-        
-        return callback(response);
+            return callback(response);
         }
     });
 };
