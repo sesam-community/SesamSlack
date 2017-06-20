@@ -15,8 +15,26 @@ GetUsergroups = function (callback) {
     });
 };  
 
-UpdateUsergroup = function (group) {
-
+UpdateUsergroup = function (group, callback) {
+    var groupid = group["slack-usergroup:id"];
+    var opts = {};
+    opts.name = group["slack-usergroup:name"];
+    web.usergroups.update(groupid, opts, function updategroup(err, response) {
+        if (err) {
+            console.log('usergroup update-Error:', err);
+        } else {
+            var channel = group["slack-usergroup:channelid"];
+            var name = ShortenGroupName(group["slack-usergroup:name"]);
+            web.channels.rename(channel, name, function renamechannel(channelerror, channelresponse){
+                if (channelerror) {
+                    console.log('channel-rename-Error:', channelerror);
+                } else {        
+                    console.log("rename is good");
+                }
+            });        
+            return callback(response);
+        }
+    });
 };
 
 CheckUserGroup = function (group) {
