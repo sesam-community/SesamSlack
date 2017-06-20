@@ -68,16 +68,17 @@ ShortenGroupName = function (name) {
 
 CreateChannel = function (channel, callback) {
     var channelname = channel["name"];
-    console.log(channelname);
+    
     var name = ShortenGroupName(channelname);
-    // web.channels.create(name, function(err, response) {
-    //     if (err) {
-    //     console.log("Err: " +err);
-    //     } else {
-    //     console.log("channel created: " +name);
-    //     return callback(response);
-    //     }
-    // })
+    console.log(name);
+    web.channels.create(name, function(err, response) {
+        if (err) {
+        console.log("Err: " +err);
+        } else {
+        console.log("channel created: " +name);
+        return callback(response);
+        }
+    })
 };
 
 CreateUserGroup = function (group, channel, callback) {
@@ -85,11 +86,11 @@ CreateUserGroup = function (group, channel, callback) {
     var groupname = group["name"];
     var opts = {};
     opts.channels = channel;
-    // web.usergroups.create(groupname, opts , function (err, response){
-    //     if (err) {
-    //         console.log("Err: " +err);
-    //     } else {
-    //         return callback(response);
-    //     }
-    // });
+    web.usergroups.create(groupname, opts , function (err, response){
+        if (err) {
+            console.log("Err: " +err);
+        } else {
+            return callback(response);
+        }
+    });
 };

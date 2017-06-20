@@ -151,7 +151,10 @@ router.post('/users', function(request, response) {
 });
 
 router.post('/usergroups', function(request, response) {   
-    var usergroups = request.post;
+    console.log(request.post);
+        
+    
+    var usergroups =  JSON.parse( JSON.stringify( request.post ) );
     
     Object(usergroups).forEach(function(element, key, _array) {
       var channelid = "";
