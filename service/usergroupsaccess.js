@@ -16,15 +16,15 @@ GetUsergroups = function (callback) {
 };  
 
 UpdateUsergroup = function (group, callback) {
-    var groupid = group["slack-usergroup:id"];
+    var groupid = group["id"];
     var opts = {};
-    opts.name = group["slack-usergroup:name"];
+    opts.name = group["name"];
     web.usergroups.update(groupid, opts, function updategroup(err, response) {
         if (err) {
             console.log('usergroup update-Error:', err);
         } else {
-            var channel = group["slack-usergroup:channelid"];
-            var name = ShortenGroupName(group["slack-usergroup:name"]);
+            var channel = group["channelid"];
+            var name = ShortenGroupName(group["name"]);
             web.channels.rename(channel, name, function renamechannel(channelerror, channelresponse){
                 if (channelerror) {
                     console.log('channel-rename-Error:', channelerror);
@@ -65,7 +65,7 @@ ShortenGroupName = function (name) {
 };
 
 CreateChannel = function (channel, callback) {
-    var channelname = channel["slack-usergroup:name"];
+    var channelname = channel["name"];
     var name = ShortenGroupName(channelname);
     web.channels.create(name, function(err, response) {
         if (err) {
@@ -78,7 +78,7 @@ CreateChannel = function (channel, callback) {
 };
 
 CreateUserGroup = function (group, channel, callback) {
-    var groupname = group["slack-usergroup:name"];
+    var groupname = group["name"];
     var opts = {};
     opts.channels = channel;
     web.usergroups.create(groupname, opts , function (err, response){
