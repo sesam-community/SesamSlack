@@ -45,7 +45,7 @@ CheckUserGroup = function (group) {
 ShortenGroupName = function (name) {
     var shortname = "";
     var regions = ["Stavanger", "Rogaland", "Øst", "Trondheim"];
-    var shortword = {prosjektledelse:"Pl", microsoft:"MS", rådgivning:"Råd", brukeropplevelse:"BO", administrasjon:"Admin", teknologi:"Tek", og:"&"};
+    var shortword = {prosjektledelse:"Pl", microsoft:"MS", rådgivning:"Råd", brukeropplevelse:"BO", administrasjon:"Admin", teknologi:"Tek"};
 
     var splitname = name.split(" ");
     if(regions.indexOf(splitname[0]) != -1) {
