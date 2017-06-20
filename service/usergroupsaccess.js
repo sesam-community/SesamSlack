@@ -43,11 +43,13 @@ CheckUserGroup = function (group) {
 
 
 ShortenGroupName = function (name) {
+    console.log(name);
     var shortname = "";
     var regions = ["Stavanger", "Rogaland", "Øst", "Trondheim"];
     var shortword = {prosjektledelse:"Pl", microsoft:"MS", rådgivning:"Råd", brukeropplevelse:"BO", administrasjon:"Admin", teknologi:"Tek"};
-
+    
     var splitname = name.split(" ");
+    console.log(splitname);
     if(regions.indexOf(splitname[0]) != -1) {
         shortname = splitname[0].substring(0,3);
     } else {
@@ -66,26 +68,28 @@ ShortenGroupName = function (name) {
 
 CreateChannel = function (channel, callback) {
     var channelname = channel["name"];
+    console.log(channelname);
     var name = ShortenGroupName(channelname);
-    web.channels.create(name, function(err, response) {
-        if (err) {
-        console.log("Err: " +err);
-        } else {
-        console.log("channel created: " +name);
-        return callback(response);
-        }
-    })
+    // web.channels.create(name, function(err, response) {
+    //     if (err) {
+    //     console.log("Err: " +err);
+    //     } else {
+    //     console.log("channel created: " +name);
+    //     return callback(response);
+    //     }
+    // })
 };
 
 CreateUserGroup = function (group, channel, callback) {
+    
     var groupname = group["name"];
     var opts = {};
     opts.channels = channel;
-    web.usergroups.create(groupname, opts , function (err, response){
-        if (err) {
-            console.log("Err: " +err);
-        } else {
-            return callback(response);
-        }
-    });
+    // web.usergroups.create(groupname, opts , function (err, response){
+    //     if (err) {
+    //         console.log("Err: " +err);
+    //     } else {
+    //         return callback(response);
+    //     }
+    // });
 };

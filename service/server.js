@@ -162,13 +162,15 @@ router.post('/usergroups', function(request, response) {
         console.log("deactivate");
         
       } else {
-        var name = ShortenGroupName(element['slack-usergroup:name']);
-        if(element['slack-usergroup:id'] > "") {
-          UpdateUsergroup(element, function(group) {        
+        var name = ShortenGroupName(element['name']);
+        if(element['id'] > "") {
+          
+          
+          (element, function(group) {        
             console.log("UpdateUsergroup:" +group);
           });   
         } else {
-          if(element['slack-usergroup:name'] != null) {
+          if(element['name'] != null) {
             CreateChannel(element, function(res) {
               
               CreateUserGroup(element, res.channel.id,function(group) {
