@@ -3,6 +3,7 @@ var http = require('http');
 var Router = require('node-simple-router');
 var url = require('url');
 
+
 var token = process.env.slacktoken;
 
 //variables
@@ -27,15 +28,7 @@ function DataAccessLayer() {
     });
   };
 
-  this.GetUsergroups = function (callback) {
-    web.usergroups.list(function teamInfoCb(err, info) {
-      if (err) {
-        console.log('Error:', err);
-      } else {        
-        return callback(info);
-      }
-    });
-  };
+  
 
   this.UpdateUser = function (user, callback) {
       
@@ -87,65 +80,8 @@ function DataAccessLayer() {
     )};
 
 
-  this.UpdateUsergroup = function (group) {
 
-  };
 
-  this.CheckUserGroup = function (group) {
-
-  };
-
-this.ShortenGroupName = function (name) {
-  var shortname = "";
-  var regions = ["Stavanger", "Rogaland", "Øst", "Trondheim"];
-  var shortword = {prosjektledelse:"Pl", microsoft:"MS", rådgivning:"Råd", brukeropplevelse:"BO", administrasjon:"Admin", teknologi:"Tek", og:"&"};
-
-  var splitname = name.split(" ");
-  if(regions.indexOf(splitname[0]) != -1) {
-    shortname = splitname[0].substring(0,3);
-  } else {
-    shortname = splitname[0];
-  }
-  for (i = 1; i < splitname.length; i++) {
-    shortname += " ";
-    if(splitname[i].toLowerCase() in shortword) {
-      shortname += shortword[splitname[i].toLowerCase()];
-    } else {
-      shortname += splitname[i];
-    }
-  }
-  
-  return shortname.substring(0,21);
-};
-
-  this.CreateChannel = function (channel, callback) {
-    var channelname = channel["slack-usergroup:name"];
-    var name = dataAccessLayer.ShortenGroupName(channelname);
-    web.channels.create(name, function(err, response) {
-      if (err) {
-        console.log("Err: " +err);
-      } else {
-        console.log("channel created: " +name);
-        return callback(response);
-      }
-    })
-  };
-
-this.CreateUserGroup = function (group, channel, callback) {
-    
-    var groupname = group["slack-usergroup:name"];
-    var opts = {};
-    opts.channels = channel;
-    console.log(opts.channel);
-    web.usergroups.create(groupname, opts , function (err, response){
-      if (err) {
-        console.log("Err: " +err);
-      } else {
-        
-        return callback(response);
-      }
-    })
-  };
 
   // this.deactivateUser = function(user, callback) {
   //   web.users.deactivateUser
@@ -154,6 +90,7 @@ this.CreateUserGroup = function (group, channel, callback) {
 
 
 var dataAccessLayer = new DataAccessLayer();
+const uga = require('./usergroupsaccess');
 var router = Router();
 
 //henter users fra slack. 
@@ -176,7 +113,7 @@ router.get("/users", function (request, response) {
 });
 
 router.get("/usergroups", function (request, response) {
-  dataAccessLayer.GetUsergroups(function(usergrouplist) {
+  GetUsergroups(function(usergrouplist) {
       Object(usergrouplist.usergroups).forEach(function(element, key, _array) {
       var deleted;
       
@@ -191,7 +128,7 @@ router.get("/usergroups", function (request, response) {
     });
     response.writeHead(200, {"Content-Type": "application/json"});
     response.end(JSON.stringify(usergrouplist));
-  })
+  });
 });
 
 router.post('/users', function(request, response) {   
@@ -224,16 +161,16 @@ router.post('/usergroups', function(request, response) {
         console.log("deactivate");
         
       } else {
-        var name = dataAccessLayer.ShortenGroupName(element['slack-usergroup:name']);
+        var name = ShortenGroupName(element['slack-usergroup:name']);
         if(element['slack-usergroup:id'] > "") {
-          dataAccessLayer.UpdateUsergroup(element, function(group) {        
+          UpdateUsergroup(element, function(group) {        
             console.log("UpdateUsergroup:" +group);
           });   
         } else {
           if(element['slack-usergroup:name'] != null) {
-            dataAccessLayer.CreateChannel(element, function(res) {
+            CreateChannel(element, function(res) {
               
-              dataAccessLayer.CreateUserGroup(element, res.channel.id,function(group) {
+              CreateUserGroup(element, res.channel.id,function(group) {
                 console.log("usergroupid: " +group);
               }); 
             });
