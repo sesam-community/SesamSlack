@@ -72,11 +72,13 @@ CreateChannel = function (channel, callback) {
     web.channels.create(name, function(err, response) {
         if (err) {
         console.log("Err: " +err);
-        } else {
-        console.log("channel created: " +name);
-        return callback(response);
+    } else {
+        setTimeout(function() {
+            console.log("channel created: " +name);
+            return callback(response);
+        }, 500);        
         }
-    })
+    });
 };
 
 CreateUserGroup = function (group, channel, callback) {
@@ -88,7 +90,9 @@ CreateUserGroup = function (group, channel, callback) {
         if (err) {
             console.log("Err: " +err);
         } else {
+            setTimeout(function() {
             return callback(response);
+        }, 500);   
         }
     });
 };

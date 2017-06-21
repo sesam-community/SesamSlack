@@ -173,14 +173,11 @@ router.post('/usergroups', function(request, response) {
           });   
         } else {
           if(element['name'] != null) {
-            setTimeout(function() {
-              CreateChannel(element, function(res) {
+            CreateChannel(element, function(res) {
               CreateUserGroup(element, res.channel.id,function(group) {
                 console.log("usergroupid: " +group);
               }); 
             });
-            }, 500);
-            
             
             
           } else {
