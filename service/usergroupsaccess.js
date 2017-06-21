@@ -43,13 +43,11 @@ CheckUserGroup = function (group) {
 
 
 ShortenGroupName = function (name) {
-    console.log(name);
     var shortname = "";
     var regions = ["Stavanger", "Rogaland", "Øst", "Trondheim"];
     var shortword = {prosjektledelse:"Pl", microsoft:"MS", rådgivning:"Råd", brukeropplevelse:"BO", administrasjon:"Admin", teknologi:"Tek"};
     
     var splitname = name.split(" ");
-    console.log(splitname);
     if(regions.indexOf(splitname[0]) != -1) {
         shortname = splitname[0].substring(0,3);
     } else {

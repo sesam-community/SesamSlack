@@ -151,8 +151,7 @@ router.post('/users', function(request, response) {
 });
 
 router.post('/usergroups', function(request, response) {   
-    console.log(request.post);
-        
+      
     
     var usergroups =  JSON.parse( JSON.stringify( request.post ) );
     
@@ -174,12 +173,14 @@ router.post('/usergroups', function(request, response) {
           });   
         } else {
           if(element['name'] != null) {
-            CreateChannel(element, function(res) {
-              
+            setTimeout(function() {
+              CreateChannel(element, function(res) {
               CreateUserGroup(element, res.channel.id,function(group) {
                 console.log("usergroupid: " +group);
               }); 
             });
+            }, 500);
+            
             
             
           } else {
