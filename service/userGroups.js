@@ -1,9 +1,8 @@
 var http = require('http');
-var Router = require('node-simple-router');
+//var Router = require('node-simple-router');
 var url = require('url');
 var WebClient = require('@slack/client').WebClient;
-var token= 'xoxp-178195654566-177394975970-192455538614-f266b762b9d6722d427f5499983cf4d9';
-   //process.env.slacktoken;
+var token= process.env.TOKEN;
 var web = new WebClient(token);
 
 function getUsergroups(req, res) {
@@ -28,7 +27,7 @@ function updateUsergroup(group, callback) {
             console.log('usergroup update-Error:', err);
         } else {
             var channel = group["channelid"];
-            var name = ShortenGroupName(group["name"]);
+            var name = shortenGroupName(group["name"]);
             web.channels.rename(channel, name, function renamechannel(channelerror, channelresponse){
                 if (channelerror) {
                     console.log('channel-rename-Error:', channelerror);
@@ -43,7 +42,7 @@ function updateUsergroup(group, callback) {
 };
 
 
-ShortenGroupName = function (name) {
+function shortenGroupName(name) {
     console.log(name);
     var shortname = "";
     var regions = ["Stavanger", "Rogaland", "Øst", "Trondheim"];
@@ -69,7 +68,7 @@ ShortenGroupName = function (name) {
   function createChannel(channel, callback) {
     console.log(channel);
     var channelname = channel["name"]; 
-    var name = ShortenGroupName(channelname);
+    var name = shortenGroupName(channelname);
     console.log(name);
     web.channels.create(name, function(err, response) {
         if (err) {
@@ -94,7 +93,8 @@ CreateUserGroup = function (group, channel, callback) {
     });
 };
 
-router.get("/usergroups", function (request, response) {
+function usergroup(req,res){
+//router.get("/usergroups", function (request, response) {
   GetUsergroups(function(usergrouplist) {
       Object(usergrouplist.usergroups).forEach(function(element, key, _array) {
       var deleted;
@@ -111,9 +111,13 @@ router.get("/usergroups", function (request, response) {
     response.writeHead(200, {"Content-Type": "application/json"});
     response.end(JSON.stringify(usergrouplist));
   });
-});
+//});
 
-router.post('/usergroups', function(request, response) {   
+}
+
+
+function postGroup(req,res){
+//router.post('/usergroups', function(request, response) {   
     console.log(request.post);      
     var usergroups =  JSON.parse( JSON.stringify( request.post ) ); 
     Object(usergroups).forEach(function(element, key, _array) {
@@ -147,8 +151,8 @@ router.post('/usergroups', function(request, response) {
     })
     response.end(JSON.stringify(request.post));
 
-});
-
+//});
+}
 
 exports.getUsergroups = getUsergroups;
 exports.updateUsergroup = updateUsergroup;

@@ -1,11 +1,9 @@
-
-
 var http = require('http');
 var Router = require('node-simple-router');
 var url = require('url');
 var request = require("request");
 var WebClient = require('@slack/client').WebClient;
-var token= 'xoxp-178195654566-177394975970-192455538614-f266b762b9d6722d427f5499983cf4d9';
+var token= process.env.TOKEN;
 var web = new WebClient(token);
 
 slackProfile = function (user) {
@@ -65,13 +63,13 @@ var test = {
 
 function inviteUser(res, req){
 email = 'test@gmail.com';
-var ur = 'https://slack.com/api/users.admin.invite?token=xoxp-195392946340-194676095024-196228778550-ea65062d0103afff008917df4c277303&email='+ email +'&pretty=1';
+var ur = 'https://slack.com/api/users.admin.invite?token='+ token +'&email='+ email +'&pretty=1';
 var opt= {
     url: ur,
     token: token,
     header: {
-    'User-Agent': 'Super Agent/0.0.1',
-    'Content-Type': 'application/x-www-form-urlencoded',
+    'User-Agent':'Super Agent/0.0.1',
+    'Content-Type':'application/x-www-form-urlencoded',
         }
 }
 request(opt, function (error, response, body) {
@@ -83,7 +81,6 @@ request(opt, function (error, response, body) {
           return body + " " + response.statusCode;
     }
 });
-
 
 }
 

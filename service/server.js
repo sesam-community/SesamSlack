@@ -1,9 +1,7 @@
 
 var http = require('http');
 var url = require('url');
-
 var host = "0.0.0.0";
-var port = "5000";
 
 function start(route, handle) {
   function onRequest(request, response) {
