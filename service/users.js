@@ -26,7 +26,6 @@ router.post('/users', function(request, response) {
       if(element["_deleted"] || element["deleted"]) {
        
       } else {     
-
       }
       
     })
