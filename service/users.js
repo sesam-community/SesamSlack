@@ -103,6 +103,7 @@ function user(response, request){
   })
 };
 
+
   GetUsers = function (callback) {
     web.users.list(function teamInfoCb(err, data) {
       if (err) {
