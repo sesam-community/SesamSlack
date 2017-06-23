@@ -29,7 +29,6 @@ function setProfile(profile) {
   });
 
 }
-
 function inviteUser(email) {
   var ur = 'https://slack.com/api/users.admin.invite?token=' + token + '&email=' + email + '&pretty=1';
   var opt = {
@@ -50,7 +49,6 @@ function inviteUser(email) {
   });
 
 }
-
 function deactivateUser(userId) {
   var ur = 'https://slack.com/api/users.admin.invite?token=' + token + '&user=' + userId + '&pretty=1';
   var opt = {
@@ -60,6 +58,7 @@ function deactivateUser(userId) {
       'Content-Type': 'application/x-www-form-urlencoded',
     }
   }
+  
   request(opt, function (error, response, body) {
     if (!error && response.statusCode == 200) {
       console.log("Status: 200");
@@ -85,7 +84,6 @@ GetUsers(function (userlist) {
           element["_updated"] = element["updated"];
           element["_id"] = element["id"];
         }
-
       })
       res.writeHead(200, { "Content-Type": "application/json" });
       res.end(JSON.stringify(userlist));
@@ -105,10 +103,8 @@ GetUsers(function (userlist) {
           }
         }
 
-
         )}
 }
-
 
 GetUsers = function (callback) {
   web.users.list(function teamInfoCb(err, resonse) {
@@ -119,7 +115,6 @@ GetUsers = function (callback) {
     }
   });
 };
-
 
 
 exports.user = user;
