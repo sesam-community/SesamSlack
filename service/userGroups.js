@@ -1,20 +1,10 @@
 var http = require('http');
-//var Router = require('node-simple-router');
 var url = require('url');
+var request = require("request");
 var WebClient = require('@slack/client').WebClient;
-var token= process.env.TOKEN;
+var token = process.env.Token;
 var web = new WebClient(token);
 
-function getUsergroups(req, res) {
-    web.usergroups.list(function teamInfoCb(err, info) {
-        if (err) {
-            console.log('Error:', err);
-        } else {      
-             console.log("Status: 200\n\n" + info.toString());   
-              
-        }
-    });  
-}
 
 function updateUsergroup(group, callback) {
     var groupid = group["id"];
@@ -94,7 +84,6 @@ CreateUserGroup = function (group, channel, callback) {
 };
 
 function usergroup(req,res){
-//router.get("/usergroups", function (request, response) {
   GetUsergroups(function(usergrouplist) {
       Object(usergrouplist.usergroups).forEach(function(element, key, _array) {
       var deleted;
@@ -108,17 +97,27 @@ function usergroup(req,res){
       element["_updated"] = element["date_update"];
       element["_id"] = element["id"];
     });
-    response.writeHead(200, {"Content-Type": "application/json"});
-    response.end(JSON.stringify(usergrouplist));
+
+    res.writeHead(200, {"Content-Type": "application/json"});
+    res.end(JSON.stringify(usergrouplist));
   });
-//});
 
 }
 
 
-function postGroup(req,res){
-//router.post('/usergroups', function(request, response) {   
-    console.log(request.post);      
+GetUsergroups = function(callback) {
+    web.usergroups.list(function teamInfoCb(err, reponse) {
+        if (err) {
+            console.log('Error:', err);
+        } else {      
+            return callback(reponse);
+        }
+    }); 
+
+}
+
+
+function postGroup(req,res){ 
     var usergroups =  JSON.parse( JSON.stringify( request.post ) ); 
     Object(usergroups).forEach(function(element, key, _array) {
       var channelid = "";
@@ -151,9 +150,7 @@ function postGroup(req,res){
     })
     response.end(JSON.stringify(request.post));
 
-//});
 }
 
-exports.getUsergroups = getUsergroups;
-exports.updateUsergroup = updateUsergroup;
-exports.createChannel = createChannel;
+exports.usergroup = usergroup;
+

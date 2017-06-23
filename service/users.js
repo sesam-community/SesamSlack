@@ -1,10 +1,10 @@
 var http = require('http');
-var Router = require('node-simple-router');
 var url = require('url');
 var request = require("request");
 var WebClient = require('@slack/client').WebClient;
-var token= process.env.TOKEN;
+var token = process.env.Token;
 var web = new WebClient(token);
+
 
 slackProfile = function (user) {
     var userprofile = {};  
@@ -18,16 +18,15 @@ slackProfile = function (user) {
     return userprofile;
 };
 
-// Ikke i bruk
-function userUpdate(res, req){
+
+function userUpdate(req, res){
 router.post('/users', function(request, response) {   
     var users = request.post;
     Object(users.users).forEach(function(element, key, _array) {
       if(element["_deleted"] || element["deleted"]) {
-       
-      } else {     
+      } else {   
+            //ToDo
       }
-      
     })
     response.end(JSON.stringify(request.post));
 
@@ -35,7 +34,8 @@ router.post('/users', function(request, response) {
 
 }
 
-function setProfile(res,req){
+function setProfile(req,res){
+
 var test = {
       profile: {
         "first_name": "Trondemanns",
@@ -60,7 +60,7 @@ var test = {
 
 }
 
-function inviteUser(res, req){
+function inviteUser(req, res){
 email = 'test@gmail.com';
 var ur = 'https://slack.com/api/users.admin.invite?token='+ token +'&email='+ email +'&pretty=1';
 var opt= {
@@ -83,8 +83,12 @@ request(opt, function (error, response, body) {
 
 }
 
-function user(response, request){
+
+
+
+function user(req,  res){
  GetUsers(function(userlist) {
+   userlist = userlist;
     Object(userlist.members).forEach(function(element, key, _array) {
       if(element["id"] == "USLACKBOT" || element["is_bot"] == true) { 
       } else {
@@ -92,25 +96,23 @@ function user(response, request){
         element["_updated"] = element["updated"];
         element["_id"] = element["id"];
       }
-      
+
     })
-    response.writeHead(200, {"Content-Type": "application/json"});
-    response.end(JSON.stringify(userlist));
-  })
+    res.writeHead(200, {"Content-Type": "application/json"});
+    res.end(JSON.stringify(userlist));
+    
+  });
+ 
 };
 
   GetUsers = function (callback) {
-    web.users.list(function teamInfoCb(err, data) {
+    web.users.list(function teamInfoCb(err, resonse) {
       if (err) {
         console.log('Error:', err);
-      } else {        
-        return callback(data);
+      } else {     
+        return callback(resonse);
       }
     });
   };
 
-
 exports.user = user;
-exports.inviteUser = inviteUser;
-exports.userUpdate = userUpdate;
-exports.setProfile = setProfile;
