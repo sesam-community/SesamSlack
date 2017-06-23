@@ -1,21 +1,10 @@
 var http = require('http');
-var Router = require('node-simple-router');
 var url = require('url');
+var request = require("request");
 var WebClient = require('@slack/client').WebClient;
-var token= 'xoxp-178195654566-177394975970-192455538614-f266b762b9d6722d427f5499983cf4d9';
-   //process.env.slacktoken;
+var token = process.env.Token;
 var web = new WebClient(token);
 
-function getUsergroups(req, res) {
-    web.usergroups.list(function teamInfoCb(err, info) {
-        if (err) {
-            console.log('Error:', err);
-        } else {      
-             console.log("Status: 200\n\n" + info.toString());   
-              
-        }
-    });  
-}
 
 function updateUsergroup(group, callback) {
     var groupid = group["id"];
@@ -28,7 +17,7 @@ function updateUsergroup(group, callback) {
             console.log('usergroup update-Error:', err);
         } else {
             var channel = group["channelid"];
-            var name = ShortenGroupName(group["name"]);
+            var name = shortenGroupName(group["name"]);
             web.channels.rename(channel, name, function renamechannel(channelerror, channelresponse){
                 if (channelerror) {
                     console.log('channel-rename-Error:', channelerror);
@@ -43,7 +32,12 @@ function updateUsergroup(group, callback) {
 };
 
 
+<<<<<<< HEAD
 ShortenGroupName = function (name) {
+=======
+function shortenGroupName(name) {
+    console.log(name);
+>>>>>>> test
     var shortname = "";
     var regions = ["Stavanger", "Rogaland", "Øst", "Trondheim"];
     var shortword = {prosjektledelse:"Pl", microsoft:"MS", rådgivning:"Råd", brukeropplevelse:"BO", administrasjon:"Admin", teknologi:"Tek"};   
@@ -67,7 +61,7 @@ ShortenGroupName = function (name) {
   function createChannel(channel, callback) {
     console.log(channel);
     var channelname = channel["name"]; 
-    var name = ShortenGroupName(channelname);
+    var name = shortenGroupName(channelname);
     console.log(name);
     web.channels.create(name, function(err, response) {
         if (err) {
@@ -96,8 +90,10 @@ CreateUserGroup = function (group, channel, callback) {
     });
 };
 
-router.get("/usergroups", function (request, response) {
-  GetUsergroups(function(usergrouplist) {
+function usergroup(req,res){
+
+    if(req.method == "GET"){    
+    GetUsergroups(function(usergrouplist) {
       Object(usergrouplist.usergroups).forEach(function(element, key, _array) {
       var deleted;
       
@@ -110,13 +106,30 @@ router.get("/usergroups", function (request, response) {
       element["_updated"] = element["date_update"];
       element["_id"] = element["id"];
     });
-    response.writeHead(200, {"Content-Type": "application/json"});
-    response.end(JSON.stringify(usergrouplist));
-  });
-});
 
-router.post('/usergroups', function(request, response) {   
-    console.log(request.post);      
+    res.writeHead(200, {"Content-Type": "application/json"});
+    res.end(JSON.stringify(usergrouplist));
+  });
+
+    } else if( req.method == "POST"){
+        postGroup(req, res);
+    }
+
+}
+
+GetUsergroups = function(callback) {
+    web.usergroups.list(function teamInfoCb(err, reponse) {
+        if (err) {
+            console.log('Error:', err);
+        } else {      
+            return callback(reponse);
+        }
+    }); 
+
+}
+
+
+function postGroup(req,res){ 
     var usergroups =  JSON.parse( JSON.stringify( request.post ) ); 
     Object(usergroups).forEach(function(element, key, _array) {
       var channelid = "";
@@ -149,9 +162,7 @@ router.post('/usergroups', function(request, response) {
     })
     response.end(JSON.stringify(request.post));
 
-});
+}
 
+exports.usergroup = usergroup;
 
-exports.getUsergroups = getUsergroups;
-exports.updateUsergroup = updateUsergroup;
-exports.createChannel = createChannel;
