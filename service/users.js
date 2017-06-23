@@ -5,7 +5,6 @@ var WebClient = require('@slack/client').WebClient;
 var token = process.env.Token;
 var web = new WebClient(token);
 
-
 function setProfile(profile) {
   var test = {
     profile: {
@@ -46,8 +45,7 @@ function inviteUser(email) {
       console.log("Status: 200");
       return "Status: 200";
     } else {
-      console.log(body + " " + response.statusCode);
-      return body + " " + response.statusCode;
+      return response.statusCode;
     }
   });
 
@@ -112,7 +110,6 @@ GetUsers(function (userlist) {
 }
 
 
-
 GetUsers = function (callback) {
   web.users.list(function teamInfoCb(err, resonse) {
     if (err) {
@@ -123,20 +120,6 @@ GetUsers = function (callback) {
   });
 };
 
-
-<<<<<<< HEAD
-  GetUsers = function (callback) {
-    web.users.list(function teamInfoCb(err, data) {
-      if (err) {
-        console.log('Error:', err);
-      } else {        
-        return callback(data);
-      }
-    });
-  };
-=======
-
->>>>>>> test
 
 
 exports.user = user;

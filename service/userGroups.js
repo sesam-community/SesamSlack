@@ -32,12 +32,8 @@ function updateUsergroup(group, callback) {
 };
 
 
-<<<<<<< HEAD
-ShortenGroupName = function (name) {
-=======
 function shortenGroupName(name) {
     console.log(name);
->>>>>>> test
     var shortname = "";
     var regions = ["Stavanger", "Rogaland", "Øst", "Trondheim"];
     var shortword = {prosjektledelse:"Pl", microsoft:"MS", rådgivning:"Råd", brukeropplevelse:"BO", administrasjon:"Admin", teknologi:"Tek"};   
