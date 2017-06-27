@@ -89,33 +89,6 @@ CreateUserGroup = function (group, channel, callback) {
     });
 };
 
-// function usergroup(req,res){
-
-//     if(req.method == "GET"){    
-//     GetUsergroups(function(usergrouplist) {
-//       Object(usergrouplist.usergroups).forEach(function(element, key, _array) {
-//       var deleted;
-      
-//       if(element["deleted_by"]) {
-//         deleted = true;
-//       } else {
-//         deleted = false;
-//       }   
-//       element["_deleted"] = deleted;
-//       element["_updated"] = element["date_update"];
-//       element["_id"] = element["id"];
-//     });
-
-//     res.writeHead(200, {"Content-Type": "application/json"});
-//     res.end(JSON.stringify(usergrouplist));
-//   });
-
-//     } else if( req.method == "POST"){
-//         postGroup(req, res);
-//     }
-// }
-
-
 exports.Getusergroups = function(req,res){
     RetrieveUsergroups(function(usergrouplist) {
       Object(usergrouplist.usergroups).forEach(function(element, key, _array) {
@@ -134,7 +107,7 @@ exports.Getusergroups = function(req,res){
     res.writeHead(200, {"Content-Type": "application/json"});
     res.end(JSON.stringify(usergrouplist));
   });
-}
+};
 RetrieveUsergroups = function(callback) {
     web.usergroups.list(function teamInfoCb(err, reponse) {
         if (err) {

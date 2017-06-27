@@ -30,6 +30,6 @@ app.route('/userlist')
 });
 
 app.listen(5000, function () {
-    console.log('Example app listening on port 5000.');
+    console.log('SesamSlack app listening on port 5000.');
 });
 
