@@ -5,7 +5,7 @@ var host = "0.0.0.0";
 var port = 5000;
 var userGroups = require('./usergroups');
 var users = require('./users');
-var userlist = require('./userlist');
+var userList = require('./userlist');
 app.use(bodyParser.json());
 
 app.route('/users')

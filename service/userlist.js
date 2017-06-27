@@ -7,23 +7,37 @@ var web = new WebClient(token);
 
 exports.UpdateUsergroupmembers = function(req,res){
       var data = req.body;    
-      var usergroup = data["id"];
-      var userlist = [];
-      Object(data.employees).forEach(function (element, key, _array) {
-        if (element["id"] == "USLACKBOT" || element["id"] == null) {
-            console.log("Missing employee id")
-        } else {
-          userlist.push(element["id"]);
-        }
+      Object(data).forEach(function (element, key, _array) {
+        var usergroup = element["id"];
+        var userlist = []; 
+        Object(element.employees).forEach(function(employee, key, _array) {
+            if (employee["id"] == "USLACKBOT" || employee["id"] == null) {
+                console.log("Missing employee id");
+            } else {
+                userlist.push(employee["id"]);
+            }
+        });
+        UpdateMembers(usergroup, userlist, function(response){
+            
+        });
+
       });
-      UpdateMembers(usergroup, userlist); 
       res.writeHead(200, { "Content-Type": "application/json" });
-      res.end(JSON.stringify(req.body));
+      res.end();    
+        
 };
 
-function UpdateMembers(usergroup, userlist) {
-    console.log(userlist);
-    console.log(usergroup);
-    
+function UpdateMembers(us, ulist , callback) {
+    var usergroup = us;
+    var users = ulist.join();
+    var opts = {};
+    web.usergroups.users.update(usergroup, users, opts, function(err, response) {
+        if (err) {
+            return callback(err);
+        } else {
+            console.log(response);
+            return callback(response);
+        }
+    });
 }
 
