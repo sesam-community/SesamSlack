@@ -4,6 +4,7 @@ var request = require("request");
 var WebClient = require('@slack/client').WebClient;
 var token = process.env.Token;
 var web = new WebClient(token);
+var exports = module.exports = {};
 
 function setProfile(profile) {
   var test = {
@@ -72,10 +73,58 @@ function deactivateUser(userId) {
 }
 
 
-function user(req, res) {
-var usr = req.post;
-if (req.method == "GET") {
-GetUsers(function (userlist) {
+// function user(req, res) {
+// var usr = req.post;
+// if (req.method == "GET") {
+// GetUsers(function (userlist) {
+//       userlist = userlist;
+//       Object(userlist.members).forEach(function (element, key, _array) {
+//         if (element["id"] == "USLACKBOT" || element["is_bot"] == true) {
+//         } else {
+//           element["_deleted"] = element["deleted"];
+//           element["_updated"] = element["updated"];
+//           element["_id"] = element["id"];
+//         }
+//       })
+//       res.writeHead(200, { "Content-Type": "application/json" });
+//       res.end(JSON.stringify(userlist));
+
+//     });
+
+// } else if(req.method == "POST" ){
+//         // Object(usr.users).forEach(function (element, key, _array) {
+//         //   if(element['id'] != "" && element["_deleted"]){
+//         //    deactivateUser(element['slack-user:id']);
+           
+//         //   }else if (element['id'] != "" && !element["_deleted"]) {
+//         //     setProfile(element);
+
+//         //   } else if (element['id'] == "" && !element["_deleted"]){
+//         //     inviteUser(element['email']);
+//         //   }
+//         //}
+
+//         //)
+//       }
+// }
+
+exports.PostUsers = function(req, res) {
+  var userlist = req.body;
+  Object(userlist.users).forEach(function (element, key, _array) {
+    if(element['id'] != "" && element["_deleted"]){
+      deactivateUser(element['slack-user:id']);
+      
+    }else if (element['id'] != "" && !element["_deleted"]) {
+      setProfile(element);
+
+    } else if (element['id'] == "" && !element["_deleted"]){
+      inviteUser(element['email']);
+    }
+  });
+};
+
+exports.GetUserslist = function (res) {
+  GetUsers(function (userlist) {
       userlist = userlist;
       Object(userlist.members).forEach(function (element, key, _array) {
         if (element["id"] == "USLACKBOT" || element["is_bot"] == true) {
@@ -84,27 +133,11 @@ GetUsers(function (userlist) {
           element["_updated"] = element["updated"];
           element["_id"] = element["id"];
         }
-      })
+      });
       res.writeHead(200, { "Content-Type": "application/json" });
       res.end(JSON.stringify(userlist));
-
     });
-
-} else if(req.method == "POST" ){
-        Object(usr.users).forEach(function (element, key, _array) {
-          if(element['id'] != "" && element["_deleted"]){
-           deactivateUser(element['slack-user:id']);
-           
-          }else if (element['id'] != "" && !element["_deleted"]) {
-            setProfile(element);
-
-          } else if (element['id'] == "" && !element["_deleted"]){
-            inviteUser(element['email']);
-          }
-        }
-
-        )}
-}
+};
 
 GetUsers = function (callback) {
   web.users.list(function teamInfoCb(err, resonse) {
@@ -117,4 +150,4 @@ GetUsers = function (callback) {
 };
 
 
-exports.user = user;
+// exports.user = user;

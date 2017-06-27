@@ -110,7 +110,6 @@ function usergroup(req,res){
     } else if( req.method == "POST"){
         postGroup(req, res);
     }
-
 }
 
 GetUsergroups = function(callback) {

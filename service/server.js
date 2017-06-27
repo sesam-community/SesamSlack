@@ -1,39 +1,39 @@
-
-var http = require('http');
-var url = require('url');
+var express = require('express');
+var bodyParser = require('body-parser')
+var app = express();
 var host = "0.0.0.0";
 var port = 5000;
 var userGroups = require('./usergroups');
 var users = require('./users');
+var userlist = require('./userlist');
+app.use(bodyParser.json());
 
+app.route('/users')
+.get(function(req, res) {
+    users.GetUserslist(res);
+}).post(function(req, res) {
+    users.PostUsers(req, res);    
+});
 
-var handle = {};
-handle['/users'] = users.user;
-handle['/usergroups'] = userGroups.usergroup; 
+app.route('/usergroups')
+.get(function(req, res) {
+    //res.send(users.user(req, res));
+    console.log("usergroups / get");
+    console.log(req.post);
+}).post(function(req, res) {
+    userGroups.postGroup(req, res);    
+});
 
+// app.route('/userlist')
+// .get(function(req, res) {
+//     //res.send(users.user(req, res));
+//     console.log("usergroups / get");
+//     console.log(req.post);
+// }).post(function(req, res) {
+//     userGroups.postGroup(req, res);    
+// });
 
-start(route, handle);
-function start(route, handle) {
-  function onRequest(request, response) {
-    var pathName = url.parse(request.url).pathname;
-    console.log( request.method + ' Request for ' + pathName + ' received.');
-    route(handle, pathName, response, request);
-  }
-  
-  http.createServer(onRequest).listen(port);
-  console.log("Server running at http://" +host +":" +port);
-}
-
-
-function route(handle, pathname, response, request) {
-console.log('About to route a request for ' + pathname);
-  if (typeof handle[pathname] === 'function') {
-    return handle[pathname](request,response);
-  } else {
-    console.log('No request handler found for ' + pathname);
-    response.writeHead(404 ,{'Content-Type': 'text/plain'});
-    response.write('404 Not Found');
-    response.end();
-  }
-}
+app.listen(5000, function () {
+    console.log('Example app listening on port 3000.');
+});
 
