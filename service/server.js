@@ -17,9 +17,7 @@ app.route('/users')
 
 app.route('/usergroups')
 .get(function(req, res) {
-    //res.send(users.user(req, res));
-    console.log("usergroups / get");
-    console.log(req.post);
+    userGroups.Getusergroups(req, res);
 }).post(function(req, res) {
     userGroups.postGroup(req, res);    
 });
@@ -34,6 +32,6 @@ app.route('/usergroups')
 // });
 
 app.listen(5000, function () {
-    console.log('Example app listening on port 3000.');
+    console.log('Example app listening on port 5000.');
 });
 
