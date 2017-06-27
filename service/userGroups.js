@@ -33,10 +33,10 @@ function updateUsergroup(group, callback) {
 
 
 function shortenGroupName(name) {
-    console.log(name);
+    
     var shortname = "";
     var regions = ["Stavanger", "Rogaland", "Øst", "Trondheim"];
-    var shortword = {prosjektledelse:"Pl", microsoft:"MS", rådgivning:"Råd", brukeropplevelse:"BO", administrasjon:"Admin", teknologi:"Tek"};   
+    var shortword = {prosjektledelse:"proled", microsoft:"MS", rådgivning:"Rådgi", brukeropplevelse:"bo", administrasjon:"Admin", teknologi:"Tek"};   
     var splitname = name.split(" ");
     if(regions.indexOf(splitname[0]) != -1) {
         shortname = splitname[0].substring(0,3);
@@ -46,19 +46,22 @@ function shortenGroupName(name) {
     for (i = 1; i < splitname.length; i++) {
         shortname += " ";
         if(splitname[i].toLowerCase() in shortword) {
-        shortname += shortword[splitname[i].toLowerCase()];
+            shortname += shortword[splitname[i].toLowerCase()];
         } else {
-        shortname += splitname[i];
+            if(splitname[i] == "&") {
+                shortname += "-";
+            } else {
+                shortname += splitname[i];
+            }
+        
         }
     }
     return shortname.substring(0,21);
 };
 
   function createChannel(channel, callback) {
-    console.log(channel);
     var channelname = channel["name"]; 
     var name = shortenGroupName(channelname);
-    console.log(name);
     web.channels.create(name, function(err, response) {
         if (err) {
         console.log("Err: " +err);
