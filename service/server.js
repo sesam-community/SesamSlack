@@ -19,17 +19,15 @@ app.route('/usergroups')
 .get(function(req, res) {
     userGroups.Getusergroups(req, res);
 }).post(function(req, res) {
-    userGroups.postGroup(req, res);    
+    userGroups.PostGroup(req, res);    
 });
 
-// app.route('/userlist')
-// .get(function(req, res) {
-//     //res.send(users.user(req, res));
-//     console.log("usergroups / get");
-//     console.log(req.post);
-// }).post(function(req, res) {
-//     userGroups.postGroup(req, res);    
-// });
+app.route('/userlist')
+.get(function(req, res) {
+    console.log("mjess");
+}).post(function(req, res) {
+    userList.UpdateUsergroupmembers(req, res);
+});
 
 app.listen(5000, function () {
     console.log('Example app listening on port 5000.');

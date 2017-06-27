@@ -132,7 +132,7 @@ exports.Getusergroups = function(req,res){
     res.end(JSON.stringify(usergrouplist));
   });
 }
-GetUsergroups = function(callback) {
+RetrieveUsergroups = function(callback) {
     web.usergroups.list(function teamInfoCb(err, reponse) {
         if (err) {
             console.log('Error:', err);
@@ -145,13 +145,15 @@ GetUsergroups = function(callback) {
 
 
 exports.PostGroup = function(req,res){ 
-    var usergroups =  JSON.parse( JSON.stringify( request.post ) ); 
+    console.log(req.body);
+    var usergroups =  JSON.parse( JSON.stringify( req.body ) ); 
+    console.log(usergroups);
     Object(usergroups).forEach(function(element, key, _array) {
       var channelid = "";
       if(element["_deleted"]) {
         console.log("deactivate");
       } else {
-        var name = ShortenGroupName(element['name']);
+        var name = shortenGroupName(element['name']);
         if(element['id'] > "") {  
           
           (element, function(group) {        
@@ -159,12 +161,12 @@ exports.PostGroup = function(req,res){
           });   
         } else {
           if(element['name'] != null) {
-            CreateChannel(element, function(res) {
+            // CreateChannel(element, function(res) {
               
-              CreateUserGroup(element, res.channel.id,function(group) {
-                console.log("usergroupid: " +group);
-              }); 
-            });
+            //   CreateUserGroup(element, res.channel.id,function(group) {
+            //     console.log("usergroupid: " +group);
+            //   }); 
+            // });
                   
           } else {
             console.log("Empty name" +element);
@@ -173,9 +175,9 @@ exports.PostGroup = function(req,res){
         }
       }
     });
-    response.end(JSON.stringify(request.post));
+    res.end(JSON.stringify(req.body));
 
 };
 
-exports.usergroup = usergroup;
+
 
