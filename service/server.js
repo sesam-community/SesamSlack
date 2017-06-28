@@ -3,7 +3,7 @@ var bodyParser = require('body-parser')
 var app = express();
 var host = "0.0.0.0";
 var port = 5000;
-var userGroups = require('./usergroups');
+var userGroups = require('./userGroups');
 var users = require('./users');
 var userList = require('./userlist');
 app.use(bodyParser.json());
