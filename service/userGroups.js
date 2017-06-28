@@ -59,7 +59,7 @@ function shortenGroupName(name) {
     return shortname.substring(0,21);
 };
 
-  function createChannel(channel, callback) {
+  function CreateChannel(channel, callback) {
     var channelname = channel["name"]; 
     var name = shortenGroupName(channelname);
     web.channels.create(name, function(err, response) {
