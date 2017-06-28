@@ -10,22 +10,28 @@ app.use(bodyParser.json());
 
 app.route('/users')
 .get(function(req, res) {
+    console.log("HTTP Get on /users")
     users.GetUserslist(res);
 }).post(function(req, res) {
+    console.log("HTTP Post on /users")
     users.PostUsers(req, res);    
 });
 
 app.route('/usergroups')
 .get(function(req, res) {
+    console.log("HTTP Get on /usergroups")
     userGroups.Getusergroups(req, res);
 }).post(function(req, res) {
+    console.log("HTTP Post on /usergroups")
     userGroups.PostGroup(req, res);    
 });
 
 app.route('/userlist')
 .get(function(req, res) {
+    console.log("HTTP Get on /userlist")
     console.log("mjess");
 }).post(function(req, res) {
+    console.log("HTTP Post on /usergroups")
     userList.UpdateUsergroupmembers(req, res);
 });
 
