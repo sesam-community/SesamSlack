@@ -137,12 +137,12 @@ exports.PostGroup = function(req,res){
           });   
         } else {
           if(element['name'] != null) {
-            CreateChannel(element, function(res) {
-              
-              CreateUserGroup(element, res.channel.id,function(group) {
-                console.log("usergroupid: " +group);
-              }); 
-            });
+             // Prevent channel creation
+            // CreateChannel(element, function(res) {              
+            //   CreateUserGroup(element, res.channel.id,function(group) {
+            //     console.log("usergroupid: " +group);
+            //   }); 
+            // });
                   
           } else {
             console.log("Empty name" +element);
