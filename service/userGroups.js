@@ -139,9 +139,9 @@ exports.PostGroup = function(req,res){
           if(element['name'] != null) {
              // Prevent channel creation
             // CreateChannel(element, function(res) {              
-            //   CreateUserGroup(element, res.channel.id,function(group) {
-            //     console.log("usergroupid: " +group);
-            //   }); 
+               CreateUserGroup(element, res.channel.id,function(group) {
+                 console.log("usergroupid: " +group);
+              }); 
             // });
                   
           } else {
