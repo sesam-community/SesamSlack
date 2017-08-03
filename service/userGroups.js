@@ -103,7 +103,6 @@ exports.Getusergroups = function(req,res){
       element["_updated"] = element["date_update"];
       element["_id"] = element["id"];
     });
-
     res.writeHead(200, {"Content-Type": "application/json"});
     res.end(JSON.stringify(usergrouplist));
   });
