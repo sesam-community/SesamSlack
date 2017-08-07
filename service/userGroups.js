@@ -105,7 +105,6 @@ exports.Getusergroups = function(req,res){
       element["_updated"] = element["date_update"];
       element["_id"] = element["id"];
     });
-
     res.writeHead(200, {"Content-Type": "application/json"});
     res.end(JSON.stringify(usergrouplist));
   });
@@ -140,12 +139,12 @@ exports.PostGroup = function(req,res){
           });   
         } else {
           if(element['name'] != null) {
-            CreateChannel(element, function(res) {
-              
-              CreateUserGroup(element, res.channel.id,function(group) {
-                console.log("usergroupid: " +group);
+             // Prevent channel creation
+            // CreateChannel(element, function(res) {              
+               CreateUserGroup(element, res.channel.id,function(group) {
+                 console.log("usergroupid: " +group);
               }); 
-            });
+            // });
                   
           } else {
             console.log("Empty name" +element);
