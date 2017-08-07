@@ -17,9 +17,11 @@ exports.UpdateUsergroupmembers = function(req,res){
                 userlist.push(employee["id"]);
             }
         });
-        UpdateMembers(usergroup, userlist, function(response){
-            
-        });
+        if(userlist.length > 0) {
+            UpdateMembers(usergroup, userlist, function(response){
+            });
+        }
+
 
       });
       res.writeHead(200, { "Content-Type": "application/json" });

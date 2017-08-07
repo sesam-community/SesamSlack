@@ -36,7 +36,7 @@ function shortenGroupName(name) {
     
     var shortname = "";
     var regions = ["Stavanger", "Rogaland", "Øst", "Trondheim"];
-    var shortword = {prosjektledelse:"proled", microsoft:"MS", rådgivning:"Rådgi", brukeropplevelse:"bo", administrasjon:"Admin", teknologi:"Tek"};   
+    var shortword = {prosjektledelse:"prosjled", microsoft:"MS", rådgivning:"Råd", brukeropplevelse:"bo", administrasjon:"Admin", teknologi:"Tek"};   
     var splitname = name.split(" ");
     if(regions.indexOf(splitname[0]) != -1) {
         shortname = splitname[0].substring(0,3);
@@ -44,13 +44,15 @@ function shortenGroupName(name) {
         shortname = splitname[0];
     }
     for (i = 1; i < splitname.length; i++) {
-        shortname += " ";
+        
         if(splitname[i].toLowerCase() in shortword) {
+            shortname += " ";
             shortname += shortword[splitname[i].toLowerCase()];
         } else {
             if(splitname[i] == "&") {
                 shortname += "-";
             } else {
+                shortname += " ";
                 shortname += splitname[i];
             }
         
@@ -127,6 +129,7 @@ exports.PostGroup = function(req,res){
     Object(usergroups).forEach(function(element, key, _array) {
       var channelid = "";
       if(element["_deleted"]) {
+          //TODO Implementere støtte for deaktivering
         console.log("deactivate");
       } else {
         var name = shortenGroupName(element['name']);
