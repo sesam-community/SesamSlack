@@ -122,30 +122,27 @@ RetrieveUsergroups = function(callback) {
 
 
 exports.PostGroup = function(req,res){ 
-    console.log(req.body);
     var usergroups =  JSON.parse( JSON.stringify( req.body ) ); 
-    console.log(usergroups);
     Object(usergroups).forEach(function(element, key, _array) {
       var channelid = "";
+      if(element['channelid'] != null && element['channelid'] > "") {
+        channelid = element.channelid;
+      }
       if(element["_deleted"]) {
-          //TODO Implementere støtte for deaktivering
-        console.log("deactivate");
+        //TODO Implementere støtte for deaktivering
+        console.log("Deactivate usergroup -- ikke implementert");
       } else {
+          console.log(element);
         var name = shortenGroupName(element['name']);
         if(element['id'] > "") {  
-          
           (element, function(group) {        
             console.log("UpdateUsergroup:" +group);
           });   
         } else {
-          if(element['name'] != null) {
-             // Prevent channel creation
-            // CreateChannel(element, function(res) {              
-               CreateUserGroup(element, res.channel.id,function(group) {
-                 console.log("usergroupid: " +group);
-              }); 
-            // });
-                  
+          if(element['name'] != null) {     
+            CreateUserGroup(element, channelid,function(group) {
+                console.log("usergroupid: " +group);
+            });                   
           } else {
             console.log("Empty name" +element);
             console.log("null value detected. Skipping: " +element._id);
