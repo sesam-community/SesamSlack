@@ -35,11 +35,14 @@ function UpdateMembers(us, ulist , callback) {
     var opts = {};
     web.usergroups.users.update(usergroup, users, opts, function(err, response) {
         if (err) {
+            console.log(err);
             return callback(err);
         } else {
-            console.log(response);
+            console.log("Oppdatert brukere for:" +usergroup);
             return callback(response);
         }
     });
+
+
 }
 

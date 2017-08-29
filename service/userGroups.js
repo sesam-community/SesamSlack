@@ -12,7 +12,7 @@ function updateUsergroup(group, callback) {
     opts.name = group["name"];
  
     web.usergroups.update(groupid, opts, function updategroup(err, response) {
-           console.log(callback);
+           
         if (err) {
             console.log('usergroup update-Error:', err);
         } else {
@@ -22,7 +22,7 @@ function updateUsergroup(group, callback) {
                 if (channelerror) {
                     console.log('channel-rename-Error:', channelerror);
                 } else {        
-                    console.log("rename is good");
+                    console.log("Endring av navn er vellykket.");
                 }
             }); 
 
