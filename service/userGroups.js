@@ -32,8 +32,7 @@ function updateUsergroup(group, callback) {
 };
 
 
-function shortenGroupName(name) {
-    
+function shortenGroupName(name) {    
     var shortname = "";
     var regions = ["Stavanger", "Rogaland", "Øst", "Trondheim"];
     var shortword = {prosjektledelse:"prosjled", microsoft:"MS", rådgivning:"Råd", brukeropplevelse:"bo", administrasjon:"Admin", teknologi:"Tek"};   
