@@ -81,7 +81,7 @@ CreateUserGroup = function (group, channel, callback) {
     opts.channels = channel;
     web.usergroups.create(groupname, opts , function (err, response){
         if (err) {
-            console.log("Err: " +err);
+            console.log("Err: " +groupname +err);
         } else {
             setTimeout(function() {
             return callback(response);
@@ -133,7 +133,7 @@ exports.PostGroup = function(req,res){
       } else {
           console.log(element);
         var name = shortenGroupName(element['name']);
-        if(element['id'] > "") {  
+        if(element['id'] != null || element['id']  != '') {  
           (element, function(group) {        
             console.log("UpdateUsergroup:" +group);
           });   

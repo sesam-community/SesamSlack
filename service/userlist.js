@@ -35,7 +35,7 @@ function UpdateMembers(us, ulist , callback) {
     var opts = {};
     web.usergroups.users.update(usergroup, users, opts, function(err, response) {
         if (err) {
-            console.log(err);
+            console.log("Error: " +usergroup +" : " +err);
             return callback(err);
         } else {
             console.log("Oppdatert brukere for:" +usergroup);
