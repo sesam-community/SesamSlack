@@ -131,13 +131,13 @@ exports.PostGroup = function(req,res){
         //TODO Implementere støtte for deaktivering
         console.log("Deactivate usergroup -- ikke implementert");
       } else {
-          console.log(element);
+          
         var name = shortenGroupName(element['name']);
         if(element['id'] != null || element['id']  != '') {  
-          (element, function(group) {        
-            console.log("UpdateUsergroup:" +group);
-          });   
+            //TODO call updateusergroup
+            console.log("UpdateUsergroup:" +group);  
         } else {
+          //create usergroup  
           if(element['name'] != null) {     
             CreateUserGroup(element, channelid,function(group) {
                 console.log("usergroupid: " +group);

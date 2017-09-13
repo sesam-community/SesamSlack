@@ -10,17 +10,22 @@ exports.UpdateUsergroupmembers = function(req,res){
       Object(data).forEach(function (element, key, _array) {
         var usergroup = element["id"];
         var userlist = []; 
-        Object(element.employees).forEach(function(employee, key, _array) {
-            if (employee["id"] == "USLACKBOT" || employee["id"] == null) {
-                console.log("Missing employee id");
-            } else {
-                userlist.push(employee["id"]);
-            }
-        });
-        if(userlist.length > 0) {
-            UpdateMembers(usergroup, userlist, function(response){
+        if(!element["_deleted"]) {
+            Object(element.employees).forEach(function(employee, key, _array) {
+                if (employee["id"] == "USLACKBOT" || employee["id"] == null) {
+                    console.log("Missing employee id");
+                } else {
+                    userlist.push(employee["id"]);
+                }
             });
+            if(userlist.length > 0) {
+                UpdateMembers(usergroup, userlist, function(response){
+                });
+            }
+        } else {
+            Console.log("Delete / Deactive / Remove -- ikke implementert")
         }
+        
 
 
       });
