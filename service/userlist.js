@@ -10,7 +10,7 @@ exports.UpdateUsergroupmembers = function(req,res){
       Object(data).forEach(function (element, key, _array) {
         var usergroup = element["id"];
         var userlist = []; 
-        if(!element["_deleted"]) {
+        if(!element["_deleted"] && element.employees != null) {
             Object(element.employees).forEach(function(employee, key, _array) {
                 if (employee["id"] == "USLACKBOT" || employee["id"] == null) {
                     console.log("Missing employee id");
