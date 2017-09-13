@@ -23,7 +23,7 @@ exports.UpdateUsergroupmembers = function(req,res){
                 });
             }
         } else {
-            Console.log("Delete / Deactive / Remove -- ikke implementert")
+            console.log("Delete / Deactive / Remove -- ikke implementert")
         }
         
 
