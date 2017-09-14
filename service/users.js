@@ -52,7 +52,7 @@ function inviteUser(email) {
 }
 function deactivateUser(userId) {
   var ur = 'https://slack.com/api/users.admin.setInactive?token='
-   + token + '&user=' + userId;
+   + token + '&user=' + userId +"&scope=\"identify,read,post,client\"";
   var opt = {
     url: ur,
     header: {
