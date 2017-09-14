@@ -109,18 +109,27 @@ function deactivateUser(userId) {
 // }
 
 exports.PostUsers = function(req, res) {
-  var userlist = req.body;
-  Object(userlist.users).forEach(function (element, key, _array) {
-    if(element['id'] != "" && element["_deleted"]){
-      deactivateUser(element['slack-user:id']);
-      
-    }else if (element['id'] != "" && !element["_deleted"]) {
-      setProfile(element);
+  var element = req.body;
+  if(element['id'] != "" && element["_deleted"]){
+    deactivateUser(element['slack-user:id']);
+    
+  }else if (element['id'] != "" && !element["_deleted"]) {
+    setProfile(element);
 
-    } else if (element['id'] == "" && !element["_deleted"]){
-      inviteUser(element['email']);
-    }
-  });
+  } else if (element['id'] == "" && !element["_deleted"]){
+    inviteUser(element['email']);
+  }
+  // Object(userlist.users).forEach(function (element, key, _array) {
+  //   if(element['id'] != "" && element["_deleted"]){
+  //     deactivateUser(element['slack-user:id']);
+      
+  //   }else if (element['id'] != "" && !element["_deleted"]) {
+  //     setProfile(element);
+
+  //   } else if (element['id'] == "" && !element["_deleted"]){
+  //     inviteUser(element['email']);
+  //   }
+  // });
 };
 
 exports.GetUserslist = function (res) {
