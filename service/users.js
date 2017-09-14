@@ -110,8 +110,8 @@ function deactivateUser(userId) {
 // }
 
 exports.PostUsers = function(req, res) {
-  var element = req.body;
-  console.log(element);
+  var userlist = req.body;
+  console.log(userlist);
   Object(userlist.users).forEach(function (element, key, _array) {
     if(element['id'] != "" && element["_deleted"]){
       deactivateUser(element['slack-user:id']);
