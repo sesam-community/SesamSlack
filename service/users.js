@@ -62,7 +62,8 @@ function deactivateUser(userId) {
   
   request(opt, function (error, response, body) {
     if (!error && response.statusCode == 200) {
-      console.log("Status: 200");
+      console.log("Deactivate user: " +userId+ " ok.");
+
       return "Status: 200";
     } else {
       console.log(body + " " + response.statusCode);
@@ -110,6 +111,7 @@ function deactivateUser(userId) {
 
 exports.PostUsers = function(req, res) {
   var element = req.body;
+  console.log(element);
   if(element['id'] != "" && element["_deleted"]){
     deactivateUser(element['slack-user:id']);
     
