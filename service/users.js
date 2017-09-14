@@ -90,6 +90,8 @@ exports.PostUsers = function(req, res) {
       // inviteUser(element['email']);
     }
   });
+  res.writeHead(200, { "Content-Type": "application/json" });
+  res.end("finished?");
 };
 
 exports.GetUserslist = function (res) {
