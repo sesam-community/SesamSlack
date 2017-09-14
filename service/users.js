@@ -58,13 +58,14 @@ function deactivateUser(userId) {
     header: {
       'User-Agent': 'Super Agent/0.0.1',
       'Content-Type': 'application/x-www-form-urlencoded',
+      
     }
   }
   
   request(opt, function (error, response, body) {
     if (!error && response.statusCode == 200) {
       console.log("Deactivate user: " +userId+ " ok.");
-      console.log(response);
+      console.log(response.body);
       return response.statusCode;
     } else {
       console.log(body + " " + response.statusCode);
