@@ -51,7 +51,7 @@ function inviteUser(email) {
 
 }
 function deactivateUser(userId) {
-  var ur = 'https://slack.com/api/users.admin.invite?token=' + token + '&user=' + userId + '&pretty=1';
+  var ur = 'https://slack.com/api/users.admin.setInactive?token=' + token + '&user=' + userId + '&pretty=1';
   var opt = {
     url: ur,
     header: {
@@ -63,7 +63,6 @@ function deactivateUser(userId) {
   request(opt, function (error, response, body) {
     if (!error && response.statusCode == 200) {
       console.log("Deactivate user: " +userId+ " ok.");
-
       return "Status: 200";
     } else {
       console.log(body + " " + response.statusCode);
@@ -72,42 +71,6 @@ function deactivateUser(userId) {
   });
 
 }
-
-
-// function user(req, res) {
-// var usr = req.post;
-// if (req.method == "GET") {
-// GetUsers(function (userlist) {
-//       userlist = userlist;
-//       Object(userlist.members).forEach(function (element, key, _array) {
-//         if (element["id"] == "USLACKBOT" || element["is_bot"] == true) {
-//         } else {
-//           element["_deleted"] = element["deleted"];
-//           element["_updated"] = element["updated"];
-//           element["_id"] = element["id"];
-//         }
-//       })
-//       res.writeHead(200, { "Content-Type": "application/json" });
-//       res.end(JSON.stringify(userlist));
-
-//     });
-
-// } else if(req.method == "POST" ){
-//         // Object(usr.users).forEach(function (element, key, _array) {
-//         //   if(element['id'] != "" && element["_deleted"]){
-//         //    deactivateUser(element['slack-user:id']);
-           
-//         //   }else if (element['id'] != "" && !element["_deleted"]) {
-//         //     setProfile(element);
-
-//         //   } else if (element['id'] == "" && !element["_deleted"]){
-//         //     inviteUser(element['email']);
-//         //   }
-//         //}
-
-//         //)
-//       }
-// }
 
 exports.PostUsers = function(req, res) {
   var userlist = req.body;  
