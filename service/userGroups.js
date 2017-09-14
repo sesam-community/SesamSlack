@@ -135,7 +135,7 @@ exports.PostGroup = function(req,res){
         var name = shortenGroupName(element['name']);
         if(element['id'] != null || element['id']  != '') {  
             //TODO call updateusergroup
-            console.log("UpdateUsergroup:" +group);  
+            console.log("UpdateUsergroup -- to be implemented");  
         } else {
           //create usergroup  
           if(element['name'] != null) {     
