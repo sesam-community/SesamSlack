@@ -64,7 +64,8 @@ function deactivateUser(userId) {
   request(opt, function (error, response, body) {
     if (!error && response.statusCode == 200) {
       console.log("Deactivate user: " +userId+ " ok.");
-      return "Status: 200";
+      console.log(response);
+      return response.statusCode;
     } else {
       console.log(body + " " + response.statusCode);
       return response.statusCode;
