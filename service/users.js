@@ -110,30 +110,20 @@ function deactivateUser(userId) {
 // }
 
 exports.PostUsers = function(req, res) {
-  var userlist = req.body;
-  console.log(userlist);
+  var userlist = req.body;  
   Object(userlist).forEach(function (element, key, _array) {
     if(element['id'] != "" && element["_deleted"]){
-      deactivateUser(element['slack-user:id']);
+      deactivateUser(element['id']);
       
     }else if (element['id'] != "" && !element["_deleted"]) {
-      setProfile(element);
+      console.log("updateprofile -- not implemented");
+      // setProfile(element);
 
     } else if (element['id'] == "" && !element["_deleted"]){
-      inviteUser(element['email']);
+      console.log("inviteuser -- not implemented")
+      // inviteUser(element['email']);
     }
   });
-  // Object(userlist.users).forEach(function (element, key, _array) {
-  //   if(element['id'] != "" && element["_deleted"]){
-  //     deactivateUser(element['slack-user:id']);
-      
-  //   }else if (element['id'] != "" && !element["_deleted"]) {
-  //     setProfile(element);
-
-  //   } else if (element['id'] == "" && !element["_deleted"]){
-  //     inviteUser(element['email']);
-  //   }
-  // });
 };
 
 exports.GetUserslist = function (res) {
