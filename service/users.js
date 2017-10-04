@@ -54,14 +54,6 @@ function setImage(img) {
 
 
 
-
-
-
-
-
-
-
-
 function inviteUser(email) {
   var ur = 'https://slack.com/api/users.admin.invite?token=' + token + '&email=' + email + '&pretty=1';
   var opt = {
