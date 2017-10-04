@@ -29,10 +29,18 @@ app.route('/usergroups')
 app.route('/userlist')
 .get(function(req, res) {
     console.log("HTTP Get on /userlist")
-    console.log("mjess");
 }).post(function(req, res) {
     console.log("HTTP Post on /usergroups")
     userList.UpdateUsergroupmembers(req, res);
+});
+
+
+app.route('/photo')
+.get(function(req, res) {
+    console.log("HTTP Get on /photo")
+}).post(function(req, res) {
+    console.log("HTTP Post on /photo")
+    users.setImage("");
 });
 
 app.listen(5000, function () {
