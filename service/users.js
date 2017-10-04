@@ -2,34 +2,66 @@ var http = require('http');
 var url = require('url');
 var request = require("request");
 var WebClient = require('@slack/client').WebClient;
-var token = process.env.Token;
+//var token = "xoxp-2167977614-159215739175-240563800673-9b4497b293b8bb809bf50309e7015b5d"; //process.env.Token;
+var token = "xoxp-178195654566-177394975970-176744211808-6a5dc5ddb492f1a14872611c76e27b2d"  // (test)
 var web = new WebClient(token);
 var exports = module.exports = {};
 
-function setProfile(profile) {
-  var test = {
-    profile: {
-      "first_name": "Trondemanns",
-      "last_name": "Tufte",
-      "image_original": "https:\/\/avatars.slack-edge.com\/2017-06-16\/199693409494_dda460e38c28f99c473c_original.jpg",
-      "real_name": "Trond Tufte",
-      "real_name_normalized": "Trond Tufte",
-      "email": "trond.tufte@bouvet.no",
-      "fields": null
-    }
-  };
 
-  var test2 = { name: "Trond" };
-  web.users.profile.set(test2, function (err, response) {
-    if (err) {
-      console.log(err);
+function setProfile(profile) {
+  var ur = "https://slack.com/api/users.profile.set?token=" + token + "&user=U57BLUPUJ&"+ profile + "&pretty=1";    
+   var opt = {
+    url: ur,
+    token: token,
+    header: {
+      'User-Agent': 'Super Agent/0.0.1',
+      'Content-Type':  'application/x-www-form-urlencoded'
+    }
+  }
+  request(opt, function (error, response, body) {
+    if (!error) {
+      console.log(response.statusCode);
+      console.log(body);
     } else {
-      console.log("Status: 200");
-      // return callback(response);
+      console.log(response.statusCode);
     }
   });
-
 }
+
+
+
+//http://www.pngall.com/wp-content/uploads/2016/05/Kitten-PNG-HD.png
+function setImage(img) {
+  var ur = "https://slack.com/api/users.setPhoto?token=" + token + "&mage=logo.png"; 
+  var opt = {
+  url: ur,
+    header: {
+      'User-Agent': 'Super Agent/0.0.1',
+      'Content-Type':'application/x-www-form-urlencoded',
+      'Content-Type':'image/png'
+    }
+
+  }
+  request(opt, function (error, response, body) {
+    if (!error) {
+      console.log(response.statusCode);
+      console.log(body);
+    } else {
+      console.log(response.statusCode);
+    }
+  });
+}
+
+
+
+
+
+
+
+
+
+
+
 function inviteUser(email) {
   var ur = 'https://slack.com/api/users.admin.invite?token=' + token + '&email=' + email + '&pretty=1';
   var opt = {
@@ -48,8 +80,8 @@ function inviteUser(email) {
       return response.statusCode;
     }
   });
-
 }
+
 function deactivateUser(userId) {
   var ur = 'https://slack.com/api/users.admin.setInactive?token='
    + token + '&user=' + userId +"&scope=\"identify,read,post,client\"";
@@ -72,7 +104,6 @@ function deactivateUser(userId) {
       return response.statusCode;
     }
   });
-
 }
 
 exports.PostUsers = function(req, res) {
@@ -108,6 +139,13 @@ exports.GetUserslist = function (res) {
       res.writeHead(200, { "Content-Type": "application/json" });
       res.end(JSON.stringify(userlist));
     });
+ inviteUser("inger.elise.overa@bouvet.no");
+console.log("Invited!");
+
+
+// var profile={'first_name':'PondusTrondus','last_name':'prompus'};
+// setProfile(profile);
+
 };
 
 GetUsers = function (callback) {
@@ -120,5 +158,3 @@ GetUsers = function (callback) {
   });
 };
 
-
-// exports.user = user;
