@@ -40,7 +40,7 @@ app.route('/photo')
     console.log("HTTP Get on /photo")
 }).post(function(req, res) {
     console.log("HTTP Post on /photo")
-    users.setImage("");
+    users.setImage();
 });
 
 app.listen(5000, function () {

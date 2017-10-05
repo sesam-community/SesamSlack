@@ -3,13 +3,14 @@ var url = require('url');
 var request = require("request");
 var WebClient = require('@slack/client').WebClient;
 var fs = require("fs");
-//var token = "xoxp-2167977614-159215739175-240563800673-9b4497b293b8bb809bf50309e7015b5d"; //process.env.Token;
-var token = "xoxp-178195654566-197601969061-250606167120-83ff9f51b10627b93826a792d0675516";  // (test)
+var token = process.env.Token;
 var web = new WebClient(token);
 var exports = module.exports = {};
 
 
-function setProfile(profile) {
+function setProfile(firstName, lastName) {
+  var profile={'first_name':firstName,'last_name':lastName};
+  
   var ur = "https://slack.com/api/users.profile.set?token=" + token + "&user=U57BLUPUJ&"+ profile + "&pretty=1";    
    var opt = {
     url: ur,
@@ -30,7 +31,9 @@ function setProfile(profile) {
 }
 
 
-exports.setImage = function(img) {
+exports.setImage = function(imgUrl) {
+  imgUrl = "../logo.png";
+
   var ur = "https://slack.com/api/users.setPhoto?token=" + token + "&user=U57BLUPUJ&mage=" + form+ "&pretty=1"; 
   var opt = {
   url: ur,
@@ -40,7 +43,7 @@ exports.setImage = function(img) {
     }
   }
 
-  var req = request.post(opt, function (err, resp, body) {
+  var req = request.post(opt, function (err, response, body) {
     if (err) {
       console.log(err);
     } else {
@@ -49,8 +52,7 @@ exports.setImage = function(img) {
   });
 
   var form = req.form();
-  form.append('image', fs.createReadStream("../logo.png"));
-
+  form.append('image', fs.createReadStream(imgUrl));
 }
 
 
@@ -102,15 +104,11 @@ exports.PostUsers = function(req, res) {
   var userlist = req.body;  
   Object(userlist).forEach(function (element, key, _array) {
     if(element['id'] != "" && element["_deleted"]){
-      deactivateUser(element['id']);
-      
+        deactivateUser(element['id']);
     }else if (element['id'] != "" && !element["_deleted"]) {
-      console.log("updateprofile -- not implemented");
-      // setProfile(element);
-
+        //setProfile(element);
     } else if (element['id'] == "" && !element["_deleted"]){
-      console.log("inviteuser -- not implemented")
-      // inviteUser(element['email']);
+        inviteUser(element['email']);
     }
   });
   res.writeHead(200, { "Content-Type": "application/json" });
@@ -132,11 +130,7 @@ exports.GetUserslist = function (res) {
       res.end(JSON.stringify(userlist));
     });
  inviteUser("inger.elise.overa@bouvet.no");
-console.log("Invited!");
-
-
-var profile={'first_name':'PondusTrondus','last_name':'prompus'};
-setProfile(profile);
+ console.log("Invited!");
 
 };
 
