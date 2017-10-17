@@ -7,20 +7,20 @@ var web = new WebClient(token);
 var exports = module.exports = {};
 
 function setProfile(profile) {
-  var test = {
+  var newprofile = {
     profile: {
       "first_name": "Trondemanns",
       "last_name": "Tufte",
       "image_original": "https:\/\/avatars.slack-edge.com\/2017-06-16\/199693409494_dda460e38c28f99c473c_original.jpg",
-      "real_name": "Trond Tufte",
+      "real_name": "Trond Heia Tufte",
       "real_name_normalized": "Trond Tufte",
       "email": "trond.tufte@bouvet.no",
       "fields": null
     }
   };
-
+  
   var test2 = { name: "Trond" };
-  web.users.profile.set(test2, function (err, response) {
+  web.users.profile.set(newprofile, function (err, response) {
     if (err) {
       console.log(err);
     } else {
@@ -77,13 +77,11 @@ function deactivateUser(userId) {
 
 exports.PostUsers = function(req, res) {
   var userlist = req.body;  
+  
   Object(userlist).forEach(function (element, key, _array) {
-    if(element['id'] != "" && element["_deleted"]){
-      deactivateUser(element['id']);
-      
-    }else if (element['id'] != "" && !element["_deleted"]) {
+    if (element['id'] != "" && !element["_deleted"]) {
       console.log("updateprofile -- not implemented");
-      // setProfile(element);
+      setProfile(element);
 
     } else if (element['id'] == "" && !element["_deleted"]){
       console.log("inviteuser -- not implemented")
@@ -93,6 +91,17 @@ exports.PostUsers = function(req, res) {
   res.writeHead(200, { "Content-Type": "application/json" });
   res.end("finished?");
 };
+
+exports.Deactivate = function(req, res) {
+  var userlist = req.body;  
+  Object(userlist).forEach(function (element, key, _array) {
+    if(element['id'] != "" && element["_deleted"]){
+      deactivateUser(element['id']);      
+    }
+  });
+  res.writeHead(200, { "Content-Type": "application/json" });
+  res.end("finished?");
+}
 
 exports.GetUserslist = function (res) {
   GetUsers(function (userlist) {
@@ -121,4 +130,4 @@ GetUsers = function (callback) {
 };
 
 
-// exports.user = user;
+
