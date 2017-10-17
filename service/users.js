@@ -7,23 +7,6 @@ var token = process.env.Token;
 var web = new WebClient(token);
 var exports = module.exports = {};
 
-<<<<<<< HEAD
-function setProfile(profile) {
-  var newprofile = {
-    profile: {
-      "first_name": "Trondemanns",
-      "last_name": "Tufte",
-      "image_original": "https:\/\/avatars.slack-edge.com\/2017-06-16\/199693409494_dda460e38c28f99c473c_original.jpg",
-      "real_name": "Trond Heia Tufte",
-      "real_name_normalized": "Trond Tufte",
-      "email": "trond.tufte@bouvet.no",
-      "fields": null
-    }
-  };
-  
-  var test2 = { name: "Trond" };
-  web.users.profile.set(newprofile, function (err, response) {
-=======
 
 function setProfile(firstName, lastName,userProfile, userId) {
   var profile={'first_name': firstName,'last_name': lastName};
@@ -55,7 +38,6 @@ function setImage(userId,imgUrl) {
   
    download(imgUrl, userId + '.png', function () {
    var img = fs.readFile(userId + '.png', function (err, data) {
->>>>>>> 4def0650c626e98642853a6857d60e462633c750
     if (err) {
       console.log(+"Error downloading file: " + err);
       return;
