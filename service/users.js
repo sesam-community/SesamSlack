@@ -167,17 +167,10 @@ exports.PostUsers = function(req, res) {
   var userlist = req.body;  
   
   Object(userlist).forEach(function (element, key, _array) {
-<<<<<<< HEAD
-    if (element['id'] != "" && !element["_deleted"]) {
-      console.log("updateprofile -- not implemented");
-      setProfile(element);
-
-=======
     if(element['id'] != "" && element["_deleted"]){
         deactivateUser(element['id']);
     }else if (element['id'] != "" && !element["_deleted"]) {
         //setProfile(element);
->>>>>>> 4def0650c626e98642853a6857d60e462633c750
     } else if (element['id'] == "" && !element["_deleted"]){
         inviteUser(element['email']);
     }
