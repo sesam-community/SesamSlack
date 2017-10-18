@@ -86,7 +86,7 @@ exports.updateUser = function(request,response) {
       var lastName = "";
       var test = "";
       var profile = "";
-      var userArray =   request.body ;
+      var userArray =   request.body;
       userArray.forEach(function (element) {
         profile = element["profile"];
         userId = element["id"];
@@ -209,9 +209,3 @@ GetUsers = function (callback) {
     }
   });
 };
-
-<<<<<<< HEAD
-
-
-=======
->>>>>>> 4def0650c626e98642853a6857d60e462633c750
