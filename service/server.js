@@ -28,6 +28,14 @@ app.route('/users')
     users.PostUsers(req, res);    
 });
 
+app.route('/deactivate')
+.get(function(req, res) {
+    console.log("HTTP Get on /deactivate")
+}).post(function(req, res) {
+    console.log("HTTP Post on /users")
+    users.Deactivate(req, res);    
+});
+
 app.route('/usergroups')
 .get(function(req, res) {
     console.log("HTTP Get on /usergroups")

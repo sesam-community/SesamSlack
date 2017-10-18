@@ -157,6 +157,7 @@ function deactivateUser(userId) {
 
 exports.PostUsers = function(req, res) {
   var userlist = req.body;  
+  
   Object(userlist).forEach(function (element, key, _array) {
     if(element['id'] != "" && element["_deleted"]){
         deactivateUser(element['id']);
@@ -169,6 +170,17 @@ exports.PostUsers = function(req, res) {
   res.writeHead(200, { "Content-Type": "application/json" });
   res.end("finished?");
 };
+
+exports.Deactivate = function(req, res) {
+  var userlist = req.body;  
+  Object(userlist).forEach(function (element, key, _array) {
+    if(element['id'] != "" && element["_deleted"]){
+      deactivateUser(element['id']);      
+    }
+  });
+  res.writeHead(200, { "Content-Type": "application/json" });
+  res.end("finished?");
+}
 
 exports.GetUserslist = function (res) {
   GetUsers(function (userlist) {
@@ -198,3 +210,8 @@ GetUsers = function (callback) {
   });
 };
 
+<<<<<<< HEAD
+
+
+=======
+>>>>>>> 4def0650c626e98642853a6857d60e462633c750
