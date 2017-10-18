@@ -77,9 +77,7 @@ var download = function (uri, filename, callback) {
 };
 
 
-exports.updateUser = function(request,response) {
-  
- 
+exports.updateUser = function(request,response) { 
   if (request.method === "POST") {
 
       var imgUrl = "";
@@ -90,7 +88,6 @@ exports.updateUser = function(request,response) {
       var profile = "";
       var userArray =   request.body ;
       userArray.forEach(function (element) {
-
         profile = element["profile"];
         userId = element["id"];
         firstName = element["name"];
@@ -103,21 +100,16 @@ exports.updateUser = function(request,response) {
           }
         }
 
-
-      setImage(userId, imgUrl);
-     // setProfile(firstName, lastName,profile, userId);
+     console.log("Current token: " + token);
+     setImage(userId, imgUrl);
+     setProfile(firstName, lastName,profile, userId);
       response.writeHead(200, { "Content-Type": "application/json" });  
       response.end(JSON.stringify(element));
       });
 
-
   }
 
 }
-
-
-
-
 
  exports.inviteUser = function(email) {
   var ur = 'https://slack.com/api/users.admin.invite?token=' + token + '&email=' + email + '&pretty=1';
