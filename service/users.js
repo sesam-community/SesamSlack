@@ -23,8 +23,9 @@ function setProfile(firstName, lastName, userProfile, userId, phone) {
   request(opt, function (error, response, body) {
     if (error) {
       console.log(response.statusCode);
-   // console.log(body);
+      console.log(body);
     } else {
+      console.log(body);
       console.log(firstName + " " + lastName + " updated");
       console.log(response.statusCode);
     }
@@ -72,11 +73,11 @@ var download = function (uri, filename, callback) {
 
 exports.updateUser = function (request, response) {
   if (request.method === "POST") {
-    var imgUrl = ""
+    var imgUrl = "";
     var test = "";
     var userArray = request.body;
 
- var timeout = 0;
+    var timeout = 0;
     userArray.forEach(function (element) {
    
     
@@ -100,7 +101,7 @@ exports.updateUser = function (request, response) {
        console.log(firstName + " " + lastName);
      setProfile(firstName, lastName, profile, userId, phone);
 
-    }, timeout += 1500);
+    }, timeout += 2000);
 
     });
 
