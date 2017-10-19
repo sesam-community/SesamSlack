@@ -8,13 +8,11 @@ var web = new WebClient(token);
 var exports = module.exports = {};
 
 
-function setProfile(firstName, lastName, userProfile, userId) {
-  var profile = { 'first_name': firstName, 'last_name': lastName };
-  //  var profile = userProfile;
-  //  profile["first_name"] = firstName;
-  //  profile[ "last_name"] = lastName;
+function setProfile(firstName, lastName, userProfile, userId, phone) {
+ // var profile = { 'first_name': firstName, 'last_name': lastName };
 
-  var ur = "https://slack.com/api/users.profile.set?token=" + token + "&user=" + userId + "&profile={'first_name':'" + firstName + "','last_name':'" + lastName + "'}" + "&pretty=1";
+  var ur = "https://slack.com/api/users.profile.set?token=" + token + "&user=" + userId + "&profile={'first_name':'" + firstName + "','last_name':'" + lastName + "','phone':'" + phone + "'}" + "&pretty=1";
+   console.log(ur);
   var opt = {
     url: ur,
     token: token,
@@ -60,7 +58,6 @@ function setImage(userId, imgUrl) {
         form.append('image', fs.createReadStream(userId + ".png"));
 
       }
-
     });
   });
 
@@ -81,12 +78,14 @@ exports.updateUser = function (request, response) {
     var lastName = "";
     var test = "";
     var profile = "";
+    var phone = "";
     var userArray = request.body;
     userArray.forEach(function (element) {
       profile = element["profile"];
       userId = element["id"];
       firstName = element["name"];
       lastName = element["lastName"];
+      phone = element["mobile"][0];
 
       if (element["image"] != null) {
         test = element["image"];
@@ -95,15 +94,15 @@ exports.updateUser = function (request, response) {
         }
       }
 
-      console.log("Current token: " + token);
-      setImage(userId, imgUrl);
-      setProfile(firstName, lastName, profile, userId);
+    //  console.log("Current token: " + token);
+     // setImage(userId, imgUrl);
+
+      setProfile(firstName, lastName, profile, userId, phone);
       response.writeHead(200, { "Content-Type": "application/json" });
       response.end(JSON.stringify(element));
     });
 
   }
-
 }
 
 exports.inviteUser = function (email) {
