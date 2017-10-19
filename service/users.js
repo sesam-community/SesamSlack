@@ -12,7 +12,6 @@ function setProfile(firstName, lastName, userProfile, userId, phone) {
  // var profile = { 'first_name': firstName, 'last_name': lastName };
 
   var ur = "https://slack.com/api/users.profile.set?token=" + token + "&user=" + userId + "&profile={'first_name':'" + firstName + "','last_name':'" + lastName + "','phone':'" + phone + "'}" + "&pretty=1";
-   console.log(ur);
   var opt = {
     url: ur,
     token: token,
@@ -24,7 +23,7 @@ function setProfile(firstName, lastName, userProfile, userId, phone) {
   request(opt, function (error, response, body) {
     if (!error) {
       console.log(response.statusCode);
-      console.log(body);
+   // console.log(body);
     } else {
       console.log(response.statusCode);
     }
@@ -94,14 +93,14 @@ exports.updateUser = function (request, response) {
         }
       }
 
-    //  console.log("Current token: " + token);
+    // console.log("Current token: " + token);
      // setImage(userId, imgUrl);
 
       setProfile(firstName, lastName, profile, userId, phone);
-      response.writeHead(200, { "Content-Type": "application/json" });
-      response.end(JSON.stringify(element));
+    
     });
-
+    response.writeHead(200, { "Content-Type": "application/json" });
+    response.end(JSON.stringify(element));
   }
 }
 
