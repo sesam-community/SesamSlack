@@ -97,9 +97,10 @@ exports.updateUser = function (request, response) {
      // setImage(userId, imgUrl);
      setTimeout(() => {
        console.log("Requesting...");
+       console.log(firstName + " " + lastName);
      setProfile(firstName, lastName, profile, userId, phone);
 
-    }, timeout += 1000);
+    }, timeout += 1500);
 
     });
 
