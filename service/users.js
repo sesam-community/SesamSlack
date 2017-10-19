@@ -9,14 +9,13 @@ var exports = module.exports = {};
 
 
 function setProfile(firstName, lastName, userProfile, userId, phone) {
- // var profile = { 'first_name': firstName, 'last_name': lastName };
- firstName = "\ufeff" + firstName;
- lastName = "\ufeff" + lastName;
+
   //var ur = "https://slack.com/api/users.profile.set?token=" + token + "&user=" + userId + "&profile={'first_name':'" + firstName + "','last_name':'" + lastName + "','phone':'" + phone + "'}" + "&pretty=1";
-  var ur = "https://slack.com/api/users.profile.set?token=" + token + "&user=" + userId + "&profile={'first_name':'" + firstName + "','last_name':'" + lastName + "'}" + "&pretty=1";
+  var ur = "https://slack.com/api/users.profile.set?token=" + token + "&user=" + userId + "&profile={'first_name':'" + firstName + "','last_name':'" + lastName + "'}&pretty=1";
+ // var ur = "https://slack.com/api/users.profile.set?token=" + token + "&user=" + userId + "&profile=" +profile+"&pretty=1";
   var opt = {
     url: ur,
-    token: token,
+    encoding: 'utf8',
     header: {
       'User-Agent': 'Super Agent/0.0.1',
       'Content-Type': 'application/x-www-form-urlencoded'
@@ -99,8 +98,6 @@ exports.updateUser = function (request, response) {
     // console.log("Current token: " + token);
      // setImage(userId, imgUrl);
      setTimeout(() => {
-       console.log("Requesting...");
-       console.log(firstName + " " + lastName);
      setProfile(firstName, lastName, profile, userId, phone);
 
     }, timeout += 2000);
