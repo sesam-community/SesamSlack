@@ -101,7 +101,7 @@ exports.updateUser = function (request, response) {
     
     });
     response.writeHead(200, { "Content-Type": "application/json" });
-    response.end(200);
+    response.end();
   }
 }
 
