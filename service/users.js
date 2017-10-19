@@ -34,7 +34,6 @@ function setProfile(firstName, lastName, userProfile, userId) {
 }
 
 function setImage(userId, imgUrl) {
-
   download(imgUrl, userId + '.png', function () {
     var img = fs.readFile(userId + '.png', function (err, data) {
       if (err) {
