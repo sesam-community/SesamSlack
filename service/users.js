@@ -72,20 +72,19 @@ var download = function (uri, filename, callback) {
 
 exports.updateUser = function (request, response) {
   if (request.method === "POST") {
-    var imgUrl = "";
-    var userId = "";
-    var firstName = "";
-    var lastName = "";
+    var imgUrl = ""
     var test = "";
-    var profile = "";
-    var phone = "";
     var userArray = request.body;
+
+ var timeout = 0;
     userArray.forEach(function (element) {
-      profile = element["profile"];
-      userId = element["id"];
-      firstName = element["name"];
-      lastName = element["lastName"];
-      phone = element["mobile"][0];
+   
+    
+    var  profile = element["profile"];
+    var  userId = element["id"];
+    var  firstName = element["name"];
+    var  lastName = element["lastName"];
+    var  phone = element["mobile"][0];
 
       if (element["image"] != null) {
         test = element["image"];
@@ -96,8 +95,16 @@ exports.updateUser = function (request, response) {
 
     // console.log("Current token: " + token);
      // setImage(userId, imgUrl);
-     setTimeout(setProfile(firstName, lastName, profile, userId, phone), 1000, 'test');
+     setTimeout(() => {
+       console.log("Requesting...");
+     setProfile(firstName, lastName, profile, userId, phone);
+
+    }, timeout += 1000);
+
     });
+
+
+
     response.writeHead(200, { "Content-Type": "application/json" });
     response.end();
   }
