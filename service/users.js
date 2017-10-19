@@ -11,7 +11,7 @@ var exports = module.exports = {};
 function setProfile(firstName, lastName, userProfile, userId, phone) {
  // var profile = { 'first_name': firstName, 'last_name': lastName };
  firstName = "\ufeff" + firstName;
- firstName = "\ufeff" + lastName;
+ lastName = "\ufeff" + lastName;
   //var ur = "https://slack.com/api/users.profile.set?token=" + token + "&user=" + userId + "&profile={'first_name':'" + firstName + "','last_name':'" + lastName + "','phone':'" + phone + "'}" + "&pretty=1";
   var ur = "https://slack.com/api/users.profile.set?token=" + token + "&user=" + userId + "&profile={'first_name':'" + firstName + "','last_name':'" + lastName + "'}" + "&pretty=1";
   var opt = {
