@@ -21,7 +21,7 @@ function setProfile(firstName, lastName, userProfile, userId, phone) {
     }
   }
   request(opt, function (error, response, body) {
-    if (!error) {
+    if (error) {
       console.log(response.statusCode);
    // console.log(body);
     } else {
@@ -96,9 +96,7 @@ exports.updateUser = function (request, response) {
 
     // console.log("Current token: " + token);
      // setImage(userId, imgUrl);
-
-      setProfile(firstName, lastName, profile, userId, phone);
-    
+     setTimeout(setProfile(firstName, lastName, profile, userId, phone), 1000, 'test');
     });
     response.writeHead(200, { "Content-Type": "application/json" });
     response.end();
