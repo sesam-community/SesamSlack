@@ -104,7 +104,7 @@ exports.updateUser = function (request, response) {
      setTimeout(() => {
      setProfile(firstName, lastName, profile, userId, phone);
 
-    }, timeout += 2000);
+    }, timeout += 500);
 
     });
 
