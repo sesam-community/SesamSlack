@@ -11,7 +11,6 @@ var encoding = require("encoding");
 
 function setProfile(firstName, lastName, userProfile, userId, phone) {
 
-
   lastName =  encodeURIComponent(lastName); //encoding.convert("Tøfte", "UTF-8" , "ISO-8859-1");
   firstName =  encodeURIComponent(firstName);
   var ur = "https://slack.com/api/users.profile.set?token=" + token + "&user=" + userId + "&profile={'first_name':'" + firstName + "','last_name':'" + lastName + "','phone':'" + phone + "'}" + "&pretty=1";
@@ -28,9 +27,7 @@ function setProfile(firstName, lastName, userProfile, userId, phone) {
   request(opt, function (error, response, body) {
     if (error) {
       console.log(response.statusCode);
-      console.log(body);
     } else {
-      console.log(body);
       console.log(firstName + " " + lastName + " updated");
       console.log(response.statusCode);
     }
@@ -90,7 +87,11 @@ exports.updateUser = function (request, response) {
     var  userId = element["id"];
     var  firstName = element["name"];
     var  lastName = element["lastName"];
-    var  phone = element["mobile"][0];
+    var  phone = "";
+    
+    if(element["mobile"][0] != null){
+      phone = element["mobile"][0];
+    }
 
       if (element["image"] != null) {
         test = element["image"];
@@ -103,7 +104,6 @@ exports.updateUser = function (request, response) {
      // setImage(userId, imgUrl);
      setTimeout(() => {
      setProfile(firstName, lastName, profile, userId, phone);
-
     }, timeout += 500);
 
     });
