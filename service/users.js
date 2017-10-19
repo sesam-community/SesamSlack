@@ -14,8 +14,8 @@ function setProfile(firstName, lastName, userProfile, userId, phone) {
 
   lastName =  encodeURIComponent(lastName); //encoding.convert("Tøfte", "UTF-8" , "ISO-8859-1");
   firstName =  encodeURIComponent(firstName);
-  //var ur = "https://slack.com/api/users.profile.set?token=" + token + "&user=" + userId + "&profile={'first_name':'" + firstName + "','last_name':'" + lastName + "','phone':'" + phone + "'}" + "&pretty=1";
-  var ur = "https://slack.com/api/users.profile.set?token=" + token + "&user=" + userId + "&profile={'first_name':'" + firstName + "','last_name':'" + lastName + "'}&pretty=1";
+  var ur = "https://slack.com/api/users.profile.set?token=" + token + "&user=" + userId + "&profile={'first_name':'" + firstName + "','last_name':'" + lastName + "','phone':'" + phone + "'}" + "&pretty=1";
+ // var ur = "https://slack.com/api/users.profile.set?token=" + token + "&user=" + userId + "&profile={'first_name':'" + firstName + "','last_name':'" + lastName + "'}&pretty=1";
  // var ur = "https://slack.com/api/users.profile.set?token=" + token + "&user=" + userId + "&profile=" +profile+"&pretty=1";
   var opt = {
     url: ur,
