@@ -25,6 +25,7 @@ function setProfile(firstName, lastName, userProfile, userId, phone) {
       console.log(response.statusCode);
    // console.log(body);
     } else {
+      console.log(firstName + " " + lastName + " updated");
       console.log(response.statusCode);
     }
   });
@@ -100,7 +101,7 @@ exports.updateUser = function (request, response) {
     
     });
     response.writeHead(200, { "Content-Type": "application/json" });
-    response.end(JSON.stringify(element));
+    response.end(200);
   }
 }
 
