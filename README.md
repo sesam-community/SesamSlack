@@ -1,5 +1,5 @@
 # sesamslacknode
-[![Build Status](https://travis-ci.org/sesam-community/SesamSlack.svg?branch=master)](https://travis-ci.org/sesam-community/SesamSlack)
+[![Build Status](https://travis-ci.org/sesam-community/slack.svg?branch=master)](https://travis-ci.org/sesam-community/slack)
 
 Microservice that 
 Følgende funksjoner er implementert:
