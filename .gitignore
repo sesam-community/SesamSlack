@@ -55,7 +55,7 @@ typings/
 
 # dotenv environment variables file
 .env
-
+.idea
 .idea/workspace.xml
 .idea/SesamSlack_forok.iml
 .idea/modules.xml

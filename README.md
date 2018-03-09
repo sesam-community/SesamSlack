@@ -1,4 +1,6 @@
 # sesamslacknode
+[![Build Status](https://travis-ci.org/sesam-community/SesamSlack.svg?branch=master)](https://travis-ci.org/sesam-community/SesamSlack)
+
 Microservice that 
 Følgende funksjoner er implementert:
 * Uthenting av brukere
